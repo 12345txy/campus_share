@@ -9,5 +9,4 @@ public class CampusShareApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CampusShareApplication.class, args);
 	}
-
 }

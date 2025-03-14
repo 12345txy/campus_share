@@ -51,10 +51,11 @@ public class AuthController {
     public Result<Map<String, String>> login(@RequestBody User loginUser) {
         // 调用userService的getUserByUsername方法，根据loginUser的username获取对应的User对象
         User user = userService.getUserByUsername(loginUser.getUsername());
-        
+        System.out.println(user);
         // 检查user是否为null或者密码是否不匹配
         if (user == null || !passwordEncoder.matches(loginUser.getPassword(), user.getPassword())) {
             // 如果用户不存在或密码错误，返回一个错误的结果，状态码为401，错误信息为"用户名或密码错误"
+            System.out.println("wrong password or username");
             return Result.error(401, "用户名或密码错误");
         }
 
