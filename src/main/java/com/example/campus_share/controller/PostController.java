@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.campus_share.common.PageResult;
 import com.example.campus_share.common.Result;
 import com.example.campus_share.entity.Post;
+import com.example.campus_share.entity.User;
 import com.example.campus_share.service.PostService;
+import com.example.campus_share.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -17,17 +19,27 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+    private final UserService userService;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, UserService userService) {
         this.postService = postService;
+        this.userService = userService;
     }
 
     @PostMapping
     public Result<Post> createPost(@RequestBody Post post, @RequestParam(required = false) List<Long> tagIds) {
+        // 从安全上下文获取当前认证用户
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // 获取当前用户ID并设置
-        // 这里简化处理，实际应用中应该根据认证用户获取用户ID
-        // post.setUserId(userId);
+        String username = authentication.getName();
+        
+        // 通过用户名获取完整用户信息
+        User currentUser = userService.getUserByUsername(username);
+        if (currentUser == null) {
+            return Result.error(403, "用户未登录或不存在");
+        }
+        
+        // 设置帖子关联的用户ID
+        post.setUserId(currentUser.getId());
         
         Post createdPost = postService.createPost(post, tagIds);
         return Result.success(createdPost);
