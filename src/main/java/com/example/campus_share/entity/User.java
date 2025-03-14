@@ -24,4 +24,6 @@ public class User {
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
     private Integer isAdmin; // 0-普通用户 1-管理员
+    private Integer followCount;    // 关注数
+    private Integer followerCount;  // 粉丝数
 } 

@@ -28,12 +28,12 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     @Transactional
     public Post createPost(Post post, List<Long> tagIds) {
         // 设置初始值
-        post.setCreateTime(LocalDateTime.now());
-        post.setUpdateTime(LocalDateTime.now());
+        post.setCreateTime(LocalDateTime.now()); // 设置帖子的创建时间为当前时间
+        post.setUpdateTime(LocalDateTime.now()); // 设置帖子的更新时间为当前时间
         post.setViewCount(0);
-        post.setLikeCount(0);
-        post.setCommentCount(0);
-        post.setFavoriteCount(0);
+        post.setLikeCount(0); // 设置帖子的点赞次数为0
+        post.setCommentCount(0); // 设置帖子的评论次数为0
+        post.setFavoriteCount(0); // 设置帖子的收藏次数为0
         post.setStatus(0); // 正常状态
 
         // 保存帖子
