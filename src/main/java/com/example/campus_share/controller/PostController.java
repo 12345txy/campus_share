@@ -27,32 +27,22 @@ public class PostController {
     }
 
     @PostMapping
-    // 使用@PostMapping注解标记该方法为处理POST请求的方法
     public Result<Post> createPost(@RequestBody Post post, @RequestParam(required = false) List<Long> tagIds) {
         // 从安全上下文获取当前认证用户
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // SecurityContextHolder.getContext()获取当前安全上下文
-        // getAuthentication()获取当前认证信息
         String username = authentication.getName();
         
-        // 获取当前认证用户的用户名
         // 通过用户名获取完整用户信息
         User currentUser = userService.getUserByUsername(username);
-        // 调用userService的getUserByUsername方法根据用户名获取用户信息
         if (currentUser == null) {
-            // 如果用户信息为空，返回错误结果
             return Result.error(403, "用户未登录或不存在");
-            // Result.error(403, "用户未登录或不存在")创建一个错误结果，状态码为403，错误信息为"用户未登录或不存在"
         }
         
         // 设置帖子关联的用户ID
         post.setUserId(currentUser.getId());
         
-        // 设置帖子关联的用户ID为当前用户的ID
         Post createdPost = postService.createPost(post, tagIds);
-        // 调用postService的createPost方法创建帖子，并传入帖子对象和标签ID列表
         return Result.success(createdPost);
-        // 返回成功结果，包含创建的帖子对象
     }
 
     @PutMapping("/{id}")
