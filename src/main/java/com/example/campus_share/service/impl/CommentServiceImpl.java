@@ -1,0 +1,108 @@
+package com.example.campus_share.service.impl;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.campus_share.entity.Comment;
+import com.example.campus_share.entity.Post;
+import com.example.campus_share.mapper.CommentMapper;
+import com.example.campus_share.mapper.PostMapper;
+import com.example.campus_share.service.CommentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+
+@Service
+public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
+
+    private static final Logger log = LoggerFactory.getLogger(CommentServiceImpl.class);
+
+    private final PostMapper postMapper;
+
+    public CommentServiceImpl(PostMapper postMapper) {
+        this.postMapper = postMapper;
+    }
+
+    @Override
+    @Transactional
+    public Comment createComment(Comment comment) {
+        log.info("开始创建评论: {}", comment);
+        // 设置评论状态为正常
+        comment.setStatus(0);
+        // 设置创建和更新时间
+        comment.setCreateTime(LocalDateTime.now());
+        comment.setUpdateTime(LocalDateTime.now());
+        
+        // 保存评论
+        boolean saved = this.save(comment);
+        log.info("评论保存结果: {}, 评论ID: {}", saved, comment.getId());
+        
+        // 更新帖子的评论数
+        log.info("开始更新帖子评论数, 帖子ID: {}", comment.getPostId());
+        updatePostCommentCount(comment.getPostId());
+        
+        return comment;
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteComment(Long id, Long userId) {
+        // 获取评论
+        Comment comment = this.getById(id);
+        if (comment == null) {
+            return false;
+        }
+        
+        // 检查是否是评论作者或管理员（这里仅做用户检查）
+        if (!comment.getUserId().equals(userId)) {
+            return false;
+        }
+        
+        // 逻辑删除评论
+        comment.setStatus(2); // 删除状态
+        this.updateById(comment);
+        
+        // 更新帖子的评论数
+        updatePostCommentCount(comment.getPostId());
+        
+        return true;
+    }
+
+    @Override
+    public IPage<Comment> getCommentsByPostId(Page<Comment> page, Long postId) {
+        return this.baseMapper.selectCommentsByPostId(page, postId);
+    }
+
+    @Override
+    public IPage<Comment> getRepliesByCommentId(Page<Comment> page, Long commentId) {
+        return this.baseMapper.selectRepliesByCommentId(page, commentId);
+    }
+
+    @Override
+    public int getCommentCount(Long postId) {
+        LambdaQueryWrapper<Comment> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Comment::getPostId, postId)
+               .eq(Comment::getStatus, 0); // 只统计正常状态的评论
+        return Math.toIntExact(this.count(wrapper));
+    }
+    
+    // 更新帖子的评论数
+    // 定义一个私有方法，用于更新指定帖子的评论数量
+    private void updatePostCommentCount(Long postId) {
+        // 通过帖子ID从数据库中查询帖子对象
+        Post post = postMapper.selectById(postId);
+        // 检查查询到的帖子对象是否为空
+        if (post != null) {
+            // 获取该帖子的评论数量
+            int commentCount = getCommentCount(postId);
+            // 将获取到的评论数量设置到帖子对象中
+            post.setCommentCount(commentCount);
+            // 更新数据库中的帖子对象，包括新的评论数量
+            postMapper.updateById(post);
+        }
+    }
+} 

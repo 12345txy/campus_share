@@ -1,4 +1,4 @@
--- 用户表
+-- 用户表（保持不变）
 CREATE TABLE `t_user` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL COMMENT '用户名',
@@ -17,7 +17,7 @@ CREATE TABLE `t_user` (
   UNIQUE KEY `idx_username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 
--- 帖子表
+-- 帖子表（保持不变）
 CREATE TABLE `t_post` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `user_id` bigint NOT NULL COMMENT '用户ID',
@@ -37,38 +37,43 @@ CREATE TABLE `t_post` (
   KEY `idx_category_id` (`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='帖子表';
 
--- 评论表
+-- 修改评论表，添加parent_id字段支持回复功能
 CREATE TABLE `t_comment` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `post_id` bigint NOT NULL COMMENT '帖子ID',
   `user_id` bigint NOT NULL COMMENT '用户ID',
+  `parent_id` bigint DEFAULT '0' COMMENT '父评论ID，用于回复功能',
   `content` varchar(500) NOT NULL COMMENT '内容',
-  `like_count` int DEFAULT '0' COMMENT '点赞数',
-  `status` tinyint DEFAULT '0' COMMENT '状态：0-正常 1-已删除',
+  `status` tinyint DEFAULT '0' COMMENT '状态：0-正常 1-隐藏 2-删除',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx_post_id` (`post_id`),
-  KEY `idx_user_id` (`user_id`)
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_parent_id` (`parent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='评论表';
 
--- 回复表
-CREATE TABLE `t_reply` (
+-- 帖子点赞表（修改为专门针对帖子的点赞表）
+CREATE TABLE `t_post_like` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `comment_id` bigint NOT NULL COMMENT '评论ID',
+  `post_id` bigint NOT NULL COMMENT '帖子ID',
   `user_id` bigint NOT NULL COMMENT '用户ID',
-  `reply_user_id` bigint DEFAULT NULL COMMENT '回复用户ID',
-  `content` varchar(500) NOT NULL COMMENT '内容',
-  `like_count` int DEFAULT '0' COMMENT '点赞数',
-  `status` tinyint DEFAULT '0' COMMENT '状态：0-正常 1-已删除',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  KEY `idx_comment_id` (`comment_id`),
-  KEY `idx_user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='回复表';
+  UNIQUE KEY `idx_user_post` (`user_id`,`post_id`) COMMENT '确保用户只能点赞一次'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='帖子点赞表';
 
--- 分类表
+-- 帖子收藏表（修改为与实体类一致的表结构）
+CREATE TABLE `t_post_favorite` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `post_id` bigint NOT NULL COMMENT '帖子ID',
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_user_post` (`user_id`,`post_id`) COMMENT '确保用户只能收藏一次'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='帖子收藏表';
+
+-- 分类表（保持不变）
 CREATE TABLE `t_category` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL COMMENT '分类名称',
@@ -80,7 +85,7 @@ CREATE TABLE `t_category` (
   UNIQUE KEY `idx_name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='分类表';
 
--- 标签表
+-- 标签表（保持不变）
 CREATE TABLE `t_tag` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL COMMENT '标签名称',
@@ -89,7 +94,7 @@ CREATE TABLE `t_tag` (
   UNIQUE KEY `idx_name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='标签表';
 
--- 帖子标签关联表
+-- 帖子标签关联表（保持不变）
 CREATE TABLE `t_post_tag` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `post_id` bigint NOT NULL COMMENT '帖子ID',
@@ -99,28 +104,7 @@ CREATE TABLE `t_post_tag` (
   KEY `idx_tag_id` (`tag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='帖子标签关联表';
 
--- 点赞表
-CREATE TABLE `t_like` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `user_id` bigint NOT NULL COMMENT '用户ID',
-  `target_id` bigint NOT NULL COMMENT '目标ID',
-  `type` tinyint NOT NULL COMMENT '类型：1-帖子 2-评论 3-回复',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_user_target_type` (`user_id`,`target_id`,`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='点赞表';
-
--- 收藏表
-CREATE TABLE `t_favorite` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `user_id` bigint NOT NULL COMMENT '用户ID',
-  `post_id` bigint NOT NULL COMMENT '帖子ID',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_user_post` (`user_id`,`post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='收藏表';
-
--- 用户关系表（关注关系）
+-- 用户关系表（保持不变）
 CREATE TABLE `t_user_relation` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `user_id` bigint NOT NULL COMMENT '关注者ID',
@@ -132,5 +116,5 @@ CREATE TABLE `t_user_relation` (
 
 -- 修改用户表，添加关注数和粉丝数字段
 ALTER TABLE `t_user` 
-  ADD COLUMN `follow_count` int DEFAULT '0' COMMENT '关注数' AFTER `is_admin`,
-  ADD COLUMN `follower_count` int DEFAULT '0' COMMENT '粉丝数' AFTER `follow_count`;
+ADD COLUMN `follow_count` int DEFAULT '0' COMMENT '关注数' AFTER `is_admin`,
+ADD COLUMN `follower_count` int DEFAULT '0' COMMENT '粉丝数' AFTER `follow_count`;
