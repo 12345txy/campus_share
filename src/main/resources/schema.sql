@@ -114,7 +114,65 @@ CREATE TABLE `t_user_relation` (
   UNIQUE KEY `idx_user_follow` (`user_id`,`follow_user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户关系表';
 
--- 修改用户表，添加关注数和粉丝数字段
-ALTER TABLE `t_user` 
-ADD COLUMN `follow_count` int DEFAULT '0' COMMENT '关注数' AFTER `is_admin`,
-ADD COLUMN `follower_count` int DEFAULT '0' COMMENT '粉丝数' AFTER `follow_count`;
+-- 添加角色表
+CREATE TABLE `t_role` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL COMMENT '角色名称',
+  `description` varchar(255) DEFAULT NULL COMMENT '角色描述',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
+
+-- 添加用户角色关联表
+CREATE TABLE `t_user_role` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  `role_id` bigint NOT NULL COMMENT '角色ID',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_user_role` (`user_id`,`role_id`) COMMENT '确保一个用户一个角色只有一条记录'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户角色关联表';
+
+-- 添加系统配置表
+CREATE TABLE `t_system_config` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `config_key` varchar(100) NOT NULL COMMENT '配置键',
+  `config_value` text COMMENT '配置值',
+  `description` varchar(255) DEFAULT NULL COMMENT '说明',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_key` (`config_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统配置表';
+
+-- 添加敏感词表
+CREATE TABLE `t_sensitive_word` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `word` varchar(100) NOT NULL COMMENT '敏感词',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_word` (`word`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='敏感词表';
+
+-- 添加用户访问日志表
+CREATE TABLE `t_user_log` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` bigint DEFAULT NULL COMMENT '用户ID',
+  `ip_address` varchar(50) DEFAULT NULL COMMENT 'IP地址',
+  `action` varchar(100) NOT NULL COMMENT '操作类型',
+  `object_id` bigint DEFAULT NULL COMMENT '操作对象ID',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_create_time` (`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户操作日志表';
+
+-- 插入初始角色数据
+INSERT INTO `t_role` (`name`, `description`) VALUES ('ROLE_ADMIN', '管理员');
+INSERT INTO `t_role` (`name`, `description`) VALUES ('ROLE_USER', '普通用户');
+
+-- 插入初始系统配置
+INSERT INTO `t_system_config` (`config_key`, `config_value`, `description`, `update_time`) 
+VALUES ('site_name', '校园分享平台', '站点名称', NOW());
+INSERT INTO `t_system_config` (`config_key`, `config_value`, `description`, `update_time`) 
+VALUES ('site_description', '校园生活分享社区', '站点描述', NOW());
+INSERT INTO `t_system_config` (`config_key`, `config_value`, `description`, `update_time`) 
+VALUES ('post_review', 'false', '帖子是否需要审核', NOW());

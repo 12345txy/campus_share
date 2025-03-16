@@ -15,6 +15,7 @@ import com.example.campus_share.filter.JwtAuthenticationFilter;
 import com.example.campus_share.util.JwtUtils;
 import org.springframework.http.HttpMethod;
 
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -22,11 +23,13 @@ public class SecurityConfig {
     private final UserDetailsServiceImpl userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService, PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService, PasswordEncoder passwordEncoder, JwtUtils jwtUtils, JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtils = jwtUtils;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
@@ -37,18 +40,23 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll() // 允许GET方法访问帖子而无需认证
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(authz -> authz
+                // 公共接口 - 登录注册
+                .requestMatchers("/api/auth/**").permitAll()
+                // 允许GET方法查看帖子和分类
+                .requestMatchers(HttpMethod.GET, "/api/posts/**", "/api/categories/**", "/api/comments/**").permitAll()
+                // 管理员接口
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                // 其他所有请求必须认证
                 .anyRequest().authenticated()
             )
-            .addFilterBefore(new JwtAuthenticationFilter(jwtUtils, userDetailsService), UsernamePasswordAuthenticationFilter.class)
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
-            .csrf(csrf -> csrf.disable());
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         
         return http.build();
     }

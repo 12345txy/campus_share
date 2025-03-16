@@ -36,6 +36,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         // 设置创建和更新时间
         comment.setCreateTime(LocalDateTime.now());
         comment.setUpdateTime(LocalDateTime.now());
+        // 初始化点赞数和回复数
+        comment.setLikeCount(0);
+        comment.setReplyCount(0);
         
         // 保存评论
         boolean saved = this.save(comment);
@@ -44,6 +47,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         // 更新帖子的评论数
         log.info("开始更新帖子评论数, 帖子ID: {}", comment.getPostId());
         updatePostCommentCount(comment.getPostId());
+         // 如果是回复，更新父评论的回复数
+        if (comment.getParentId() != null && comment.getParentId() > 0) {
+            log.info("更新父评论回复数, 父评论ID: {}", comment.getParentId());
+            updateParentCommentReplyCount(comment.getParentId());
+        }
         
         return comment;
     }
@@ -105,4 +113,19 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             postMapper.updateById(post);
         }
     }
+    // 添加新方法来更新父评论的回复数
+private void updateParentCommentReplyCount(Long parentId) {
+    Comment parentComment = this.getById(parentId);
+    if (parentComment != null) {
+        // 查询回复数量
+        LambdaQueryWrapper<Comment> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Comment::getParentId, parentId)
+               .eq(Comment::getStatus, 0); // 只统计正常状态的回复
+        int replyCount = Math.toIntExact(this.count(wrapper));
+        
+        // 更新父评论的回复数
+        parentComment.setReplyCount(replyCount);
+        this.updateById(parentComment);
+    }
+}
 } 
