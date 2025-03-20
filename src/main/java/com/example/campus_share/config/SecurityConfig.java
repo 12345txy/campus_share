@@ -50,6 +50,13 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/posts/**", "/api/categories/**", "/api/comments/**").permitAll()
                 // 管理员接口
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                // Swagger接口
+                .requestMatchers(
+                    "/swagger-ui/**",
+                    "/v3/api-docs/**",
+                    "/swagger-resources/**",
+                    "/webjars/**"
+                ).permitAll()
                 // 其他所有请求必须认证
                 .anyRequest().authenticated()
             )
