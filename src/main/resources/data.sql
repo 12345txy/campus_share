@@ -36,9 +36,9 @@ VALUES ('考试', NOW()),
 ON DUPLICATE KEY UPDATE name = VALUES(name);
 
 -- 示例帖子
-INSERT INTO t_post (user_id, title, content, category_id, status, view_count, like_count, comment_count, create_time, update_time)
-VALUES (1, '校园分享平台使用指南', '欢迎使用校园分享平台，这里可以分享学习资料、校园活动等信息...', 1, 0, 100, 50, 10, NOW(), NOW()),
-       (1, '计算机科学导论课程资料分享', '分享一些计算机科学导论的学习资料，希望对大家有帮助...', 1, 0, 80, 30, 5, NOW(), NOW())
+INSERT INTO t_post (id,user_id, title, content, category_id, status, view_count, like_count, comment_count, create_time, update_time)
+VALUES (1, 1, '校园分享平台使用指南', '欢迎使用校园分享平台，这里可以分享学习资料、校园活动等信息...', 1, 0, 100, 50, 10, NOW(), NOW()),
+       (2, 1, '计算机科学导论课程资料分享', '分享一些计算机科学导论的学习资料，希望对大家有帮助...', 1, 0, 80, 30, 5, NOW(), NOW())
 ON DUPLICATE KEY UPDATE update_time = NOW();
 
 -- 示例帖子标签关联
@@ -47,7 +47,7 @@ VALUES (1, 7), (1, 8), (2, 1), (2, 7)
 ON DUPLICATE KEY UPDATE post_id = VALUES(post_id);
 
 -- 示例评论
-INSERT INTO t_comment (post_id, user_id, content, like_count, status, create_time, update_time)
-VALUES (1, 2, '感谢分享，非常有用！', 5, 0, NOW(), NOW()),
-       (2, 2, '这些资料对我学习很有帮助', 3, 0, NOW(), NOW())
+INSERT INTO t_comment (id, post_id, user_id, content, like_count, status, create_time, update_time)
+VALUES (1, 1, 2, '感谢分享，非常有用！', 5, 0, NOW(), NOW()),
+       (2, 2, 2, '这些资料对我学习很有帮助', 3, 0, NOW(), NOW())
 ON DUPLICATE KEY UPDATE update_time = NOW();
