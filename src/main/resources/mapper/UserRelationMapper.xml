@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.campus_share.mapper.UserRelationMapper">
+
+    <select id="selectFollowingUsers" resultType="com.example.campus_share.entity.User">
+        SELECT u.*
+        FROM t_user u
+        JOIN t_user_relation ur ON u.id = ur.follow_user_id
+        WHERE ur.user_id = #{userId}
+        AND u.status = 0
+        ORDER BY ur.create_time DESC
+    </select>
+    
+    <select id="selectFollowerUsers" resultType="com.example.campus_share.entity.User">
+        SELECT u.*
+        FROM t_user u
+        JOIN t_user_relation ur ON u.id = ur.user_id
+        WHERE ur.follow_user_id = #{userId}
+        AND u.status = 0
+        ORDER BY ur.create_time DESC
+    </select>
+</mapper>
