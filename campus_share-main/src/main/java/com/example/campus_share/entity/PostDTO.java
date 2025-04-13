@@ -25,4 +25,5 @@ public class PostDTO {
     private boolean isFavorite;
     private boolean isLiked;
     private boolean isFollowing;
+
 }

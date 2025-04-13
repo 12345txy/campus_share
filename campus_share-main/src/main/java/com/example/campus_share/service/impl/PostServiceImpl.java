@@ -49,6 +49,65 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         this.postLikeService = postLikeService;
         this.userRelationService = userRelationService;
     }
+    private PostDTO convertToPostDTO(Post post, Long currentUserId) {
+        PostDTO postDTO = new PostDTO();
+        postDTO.setId(post.getId());
+        postDTO.setUserId(post.getUserId());
+        postDTO.setTitle(post.getTitle());
+        postDTO.setContent(post.getContent());
+        postDTO.setCategoryId(post.getCategoryId());
+        postDTO.setCoverImage(post.getCoverImage());
+        postDTO.setViewCount(post.getViewCount());
+        postDTO.setLikeCount(post.getLikeCount());
+        postDTO.setCommentCount(post.getCommentCount());
+        postDTO.setFavoriteCount(post.getFavoriteCount());
+        postDTO.setCreateTime(post.getCreateTime());
+
+        // 查询用户信息
+        Map<String, Object> userInfo = userMapper.getUserAvatarUrlAndNicknameByUserId(post.getUserId());
+        if (userInfo != null) {
+            postDTO.setUserAvatarUrl((String) userInfo.get("avatar"));
+            postDTO.setUserNickname((String) userInfo.get("nickname"));
+        }
+
+        // 查询帖子的标签
+        LambdaQueryWrapper<PostTag> postTagWrapper = new LambdaQueryWrapper<>();
+        postTagWrapper.eq(PostTag::getPostId, post.getId());
+        List<PostTag> postTags = postTagMapper.selectList(postTagWrapper);
+        List<Long> tagIds = postTags.stream().map(PostTag::getTagId).collect(Collectors.toList());
+
+        LambdaQueryWrapper<Tag> tagWrapper = new LambdaQueryWrapper<>();
+        if (!tagIds.isEmpty()) {
+            tagWrapper.in(Tag::getId, tagIds);
+        }
+        List<Tag> tags = tagMapper.selectList(tagWrapper);
+        List<String> tagNames = tags.stream().map(Tag::getName).collect(Collectors.toList());
+        postDTO.setTags(tagNames);
+
+        // 处理组图字段
+        if (post.getImages() != null && !post.getImages().isEmpty()) {
+            String imagesStr = post.getImages().replace("[", "").replace("]", "");
+            String[] imageArray = imagesStr.split(",");
+            List<String> imageList = new ArrayList<>();
+            for (String image : imageArray) {
+                imageList.add(image.trim().replace("'", ""));
+            }
+            postDTO.setImages(imageList);
+        }
+
+        // 判断当前用户是否点赞、收藏以及是否关注了帖子的作者
+        if (currentUserId != null) {
+            postDTO.setLiked(postLikeService.isLiked(post.getId(), currentUserId));
+            postDTO.setFavorite(postFavoriteService.isFavorited(post.getId(), currentUserId));
+            postDTO.setFollowing(userRelationService.isFollowing(currentUserId, post.getUserId()));
+        } else {
+            postDTO.setLiked(false);
+            postDTO.setFavorite(false);
+            postDTO.setFollowing(false);
+        }
+
+        return postDTO;
+    }
     @Override
     @Transactional
     public Post createPost(Post post, List<Long> tagIds) {
@@ -163,66 +222,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         }
 
         for (Post post : postPage.getRecords()) {
-            PostDTO postDTO = new PostDTO();
-            postDTO.setId(post.getId());
-            postDTO.setUserId(post.getUserId());
-            postDTO.setTitle(post.getTitle());
-            postDTO.setContent(post.getContent());
-            postDTO.setCategoryId(post.getCategoryId());
-            postDTO.setCoverImage(post.getCoverImage());
-            postDTO.setViewCount(post.getViewCount());
-            postDTO.setLikeCount(post.getLikeCount());
-            postDTO.setCommentCount(post.getCommentCount());
-            postDTO.setFavoriteCount(post.getFavoriteCount());
-            postDTO.setCreateTime(post.getCreateTime());
-
-            // 查询用户信息
-            // 假设 UserMapper 中有一个方法 getUserAvatarUrlAndNicknameByUserId 根据用户 ID 查询用户的头像 URL 和昵称
-            Map<String, Object> userInfo = userMapper.getUserAvatarUrlAndNicknameByUserId(post.getUserId());
-            if (userInfo != null) {
-                postDTO.setUserAvatarUrl((String) userInfo.get("avatar"));
-                postDTO.setUserNickname((String) userInfo.get("nickname"));
-            }
-
-            // 查询帖子的标签
-            LambdaQueryWrapper<PostTag> postTagWrapper = new LambdaQueryWrapper<>();
-            postTagWrapper.eq(PostTag::getPostId, post.getId());
-            List<PostTag> postTags = postTagMapper.selectList(postTagWrapper);
-            List<Long> tagIds = postTags.stream().map(PostTag::getTagId).collect(Collectors.toList());
-
-            LambdaQueryWrapper<Tag> tagWrapper = new LambdaQueryWrapper<>();
-            if (!tagIds.isEmpty()) {
-                tagWrapper.in(Tag::getId, tagIds);
-            }
-            List<Tag> tags = tagMapper.selectList(tagWrapper);
-            List<String> tagNames = tags.stream().map(Tag::getName).collect(Collectors.toList());
-            postDTO.setTags(tagNames);
-
-            // 处理组图字段
-            if (post.getImages() != null && !post.getImages().isEmpty()) {
-                // 去除前后的方括号
-                String imagesStr = post.getImages().replace("[", "").replace("]", "");
-                // 按逗号分割字符串
-                String[] imageArray = imagesStr.split(",");
-                List<String> imageList = new ArrayList<>();
-                for (String image : imageArray) {
-                    // 去除首尾的引号
-                    imageList.add(image.trim().replace("'", ""));
-                }
-                postDTO.setImages(imageList);
-            }
-
-            // 判断当前用户是否点赞、收藏以及是否关注了帖子的作者
-            if (currentUserId != null) {
-                postDTO.setLiked(postLikeService.isLiked(post.getId(), currentUserId));
-                postDTO.setFavorite(postFavoriteService.isFavorited(post.getId(), currentUserId));
-                postDTO.setFollowing(userRelationService.isFollowing(currentUserId, post.getUserId()));
-            } else {
-                postDTO.setLiked(false);
-                postDTO.setFavorite(false);
-                postDTO.setFollowing(false);
-            }
-
+            PostDTO postDTO = convertToPostDTO(post, currentUserId);
             postDTOList.add(postDTO);
         }
 
@@ -252,66 +252,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         }
 
         for (Post post : postPage.getRecords()) {
-            PostDTO postDTO = new PostDTO();
-            postDTO.setId(post.getId());
-            postDTO.setUserId(post.getUserId());
-            postDTO.setTitle(post.getTitle());
-            postDTO.setContent(post.getContent());
-            postDTO.setCategoryId(post.getCategoryId());
-            postDTO.setCoverImage(post.getCoverImage());
-            postDTO.setViewCount(post.getViewCount());
-            postDTO.setLikeCount(post.getLikeCount());
-            postDTO.setCommentCount(post.getCommentCount());
-            postDTO.setFavoriteCount(post.getFavoriteCount());
-            postDTO.setCreateTime(post.getCreateTime());
-
-            // 查询用户信息
-            // 假设 UserMapper 中有一个方法 getUserAvatarUrlAndNicknameByUserId 根据用户 ID 查询用户的头像 URL 和昵称
-            Map<String, Object> userInfo = userMapper.getUserAvatarUrlAndNicknameByUserId(post.getUserId());
-            if (userInfo != null) {
-                postDTO.setUserAvatarUrl((String) userInfo.get("avatar"));
-                postDTO.setUserNickname((String) userInfo.get("nickname"));
-            }
-
-            // 查询帖子的标签
-            LambdaQueryWrapper<PostTag> postTagWrapper = new LambdaQueryWrapper<>();
-            postTagWrapper.eq(PostTag::getPostId, post.getId());
-            List<PostTag> postTags = postTagMapper.selectList(postTagWrapper);
-            List<Long> tagIds = postTags.stream().map(PostTag::getTagId).collect(Collectors.toList());
-
-            LambdaQueryWrapper<Tag> tagWrapper = new LambdaQueryWrapper<>();
-            if (!tagIds.isEmpty()) {
-                tagWrapper.in(Tag::getId, tagIds);
-            }
-            List<Tag> tags = tagMapper.selectList(tagWrapper);
-            List<String> tagNames = tags.stream().map(Tag::getName).collect(Collectors.toList());
-            postDTO.setTags(tagNames);
-
-            // 处理组图字段
-            if (post.getImages() != null && !post.getImages().isEmpty()) {
-                // 去除前后的方括号
-                String imagesStr = post.getImages().replace("[", "").replace("]", "");
-                // 按逗号分割字符串
-                String[] imageArray = imagesStr.split(",");
-                List<String> imageList = new ArrayList<>();
-                for (String image : imageArray) {
-                    // 去除首尾的引号
-                    imageList.add(image.trim().replace("'", ""));
-                }
-                postDTO.setImages(imageList);
-            }
-
-            // 判断当前用户是否点赞、收藏以及是否关注了帖子的作者
-            if (currentUserId != null) {
-                postDTO.setLiked(postLikeService.isLiked(post.getId(), currentUserId));
-                postDTO.setFavorite(postFavoriteService.isFavorited(post.getId(), currentUserId));
-                postDTO.setFollowing(userRelationService.isFollowing(currentUserId, post.getUserId()));
-            } else {
-                postDTO.setLiked(false);
-                postDTO.setFavorite(false);
-                postDTO.setFollowing(false);
-            }
-
+            PostDTO postDTO = convertToPostDTO(post, currentUserId);
             postDTOList.add(postDTO);
         }
 
@@ -321,16 +262,56 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
 
     @Override
-    public IPage<Post> getPostsByUserId(Page<Post> page, Long userId) {
+    public IPage<PostDTO> getPostsByUserId(Page<Post> page, Long userId) {
         LambdaQueryWrapper<Post> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Post::getStatus, 0); // 正常状态
         wrapper.eq(Post::getUserId, userId);
         wrapper.orderByDesc(Post::getCreateTime);
-        return this.baseMapper.selectPage(page, wrapper);
+        IPage<Post> postPage = this.baseMapper.selectPage(page, wrapper);
+
+        IPage<PostDTO> postDTOPage = new Page<>(postPage.getCurrent(), postPage.getSize(), postPage.getTotal());
+        List<PostDTO> postDTOList = new ArrayList<>();
+
+        // 获取当前登录用户的ID
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long currentUserId = null;
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            currentUserId = userMapper.getUserIdByUsername(username);
+        }
+
+        for (Post post : postPage.getRecords()) {
+            PostDTO postDTO = convertToPostDTO(post, currentUserId);
+            postDTOList.add(postDTO);
+        }
+
+        postDTOPage.setRecords(postDTOList);
+        return postDTOPage;
     }
 
     @Override
-    public IPage<Post> searchPosts(Page<Post> page, String keyword) {
-        return this.baseMapper.searchPosts(page, keyword);
+    public IPage<PostDTO> searchPosts(Page<Post> page, String keyword) {
+
+            IPage<Post> postPage = this.baseMapper.searchPosts(page, keyword);
+
+            IPage<PostDTO> postDTOPage = new Page<>(postPage.getCurrent(), postPage.getSize(), postPage.getTotal());
+            List<PostDTO> postDTOList = new ArrayList<>();
+
+            // 获取当前登录用户的ID
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Long currentUserId = null;
+            if (principal instanceof UserDetails) {
+                String username = ((UserDetails) principal).getUsername();
+                currentUserId = userMapper.getUserIdByUsername(username);
+            }
+
+            for (Post post : postPage.getRecords()) {
+                PostDTO postDTO = convertToPostDTO(post, currentUserId);
+                postDTOList.add(postDTO);
+            }
+
+            postDTOPage.setRecords(postDTOList);
+            return postDTOPage;
+
     }
-} 
+}

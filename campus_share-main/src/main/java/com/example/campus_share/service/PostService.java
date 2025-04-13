@@ -22,7 +22,7 @@ public interface PostService extends IService<Post> {
     // 根据分类ID获取帖子列表
     IPage<PostDTO>  getPostsByCategoryId(Page<Post> page, Long categoryId);
     // 根据用户ID获取帖子列表
-    IPage<Post> getPostsByUserId(Page<Post> page, Long userId);
+    IPage<PostDTO> getPostsByUserId(Page<Post> page, Long userId);
     // 根据关键字搜索帖子，并返回分页结果
-    IPage<Post> searchPosts(Page<Post> page, String keyword);
+    IPage<PostDTO> searchPosts(Page<Post> page, String keyword);
 } 

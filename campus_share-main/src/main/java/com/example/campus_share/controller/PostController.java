@@ -85,22 +85,24 @@ public class PostController {
     }
 
     @GetMapping("/user/{userId}")
-    public Result<PageResult<Post>> getPostsByUserId(
+    public Result<PageResult<PostDTO>> getPostsByUserId(
             @PathVariable Long userId,
             @RequestParam(defaultValue = "1") Long current,
-            @RequestParam(defaultValue = "10") Long size) {
+            @RequestParam(defaultValue = "")String userName,
+            @RequestParam(defaultValue = "6") Long size) {
         Page<Post> page = new Page<>(current, size);
-        IPage<Post> postPage = postService.getPostsByUserId(page, userId);
+        if(userId==-1)userId=userService.getUserByNickname(userName).getId();
+        IPage<PostDTO> postPage= postService.getPostsByUserId(page, userId);
         return Result.success(PageResult.build(postPage));
     }
 
     @GetMapping("/search")
-    public Result<PageResult<Post>> searchPosts(
+    public Result<PageResult<PostDTO>> searchPosts(
             @RequestParam String keyword,
             @RequestParam(defaultValue = "1") Long current,
-            @RequestParam(defaultValue = "10") Long size) {
+            @RequestParam(defaultValue = "6") Long size) {
         Page<Post> page = new Page<>(current, size);
-        IPage<Post> postPage = postService.searchPosts(page, keyword);
+        IPage<PostDTO> postPage = postService.searchPosts(page, keyword);
         return Result.success(PageResult.build(postPage));
     }
 } 
