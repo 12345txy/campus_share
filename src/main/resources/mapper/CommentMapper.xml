@@ -4,10 +4,10 @@
     <select id="selectCommentsByPostId" resultType="com.example.campus_share.entity.Comment">
         SELECT c.*, u.username, u.nickname, u.avatar
         FROM t_comment c
-                 LEFT JOIN t_user u ON c.user_id = u.id
+        LEFT JOIN t_user u ON c.user_id = u.id
         WHERE c.post_id = #{postId}
-          AND c.parent_id = 0 -- 只查询主评论，不查询回复
-          AND c.status = 0 -- 只查询正常状态的评论
+        AND c.parent_id = 0 -- 只查询主评论，不查询回复
+        AND c.status = 0 -- 只查询正常状态的评论
         ORDER BY c.create_time DESC
     </select>
     

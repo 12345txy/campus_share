@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
@@ -24,11 +23,10 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     private final PostMapper postMapper;
 
-    public CommentServiceImpl(PostMapper postMapper, CommentMapper commentMapper) {
+    public CommentServiceImpl(PostMapper postMapper) {
         this.postMapper = postMapper;
-        this.commentMapper = commentMapper;
     }
-    private final CommentMapper commentMapper;
+
     @Override
     @Transactional
     public Comment createComment(Comment comment) {
@@ -83,8 +81,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public List<Comment> getCommentsByPostId(Long postId) {
-        return this.commentMapper.selectCommentsByPostId(postId);
+    public IPage<Comment> getCommentsByPostId(Page<Comment> page, Long postId) {
+        return this.baseMapper.selectCommentsByPostId(page, postId);
     }
 
     @Override

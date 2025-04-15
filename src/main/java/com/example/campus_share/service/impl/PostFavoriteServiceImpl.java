@@ -91,7 +91,6 @@ public class PostFavoriteServiceImpl extends ServiceImpl<PostFavoriteMapper, Pos
         Post post = postMapper.selectById(postId);
         if (post != null) {
             int favoriteCount = getFavoriteCount(postId);
-
             post.setFavoriteCount(favoriteCount);
             postMapper.updateById(post);
         }

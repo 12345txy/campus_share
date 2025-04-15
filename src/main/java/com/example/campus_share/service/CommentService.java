@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.campus_share.entity.Comment;
 
-import java.util.List;
-
 public interface CommentService extends IService<Comment> {
     // 创建评论
     Comment createComment(Comment comment);
@@ -15,8 +13,8 @@ public interface CommentService extends IService<Comment> {
     boolean deleteComment(Long id, Long userId);
     
     // 获取帖子的评论列表
-    public List<Comment> getCommentsByPostId(Long postId);
-
+    IPage<Comment> getCommentsByPostId(Page<Comment> page, Long postId);
+    
     // 获取评论的回复列表
     IPage<Comment> getRepliesByCommentId(Page<Comment> page, Long commentId);
     

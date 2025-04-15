@@ -19,8 +19,6 @@ public class Comment {
     private Integer status;     // 状态：0-正常 1-隐藏 2-删除
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
-    private String avatar; // 评论者头像
-    private String nickname; // 评论者昵称
     private Integer likeCount;  // 点赞数
     private Integer replyCount; // 回复数
 } 

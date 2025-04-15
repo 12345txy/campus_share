@@ -11,8 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/comments")
 public class CommentController {
@@ -80,8 +78,13 @@ public class CommentController {
     }
 
     @GetMapping("/post/{postId}")
-    public Result<List<Comment>> getCommentsByPostId(@PathVariable Long postId) {
-        List<Comment> comments = commentService.getCommentsByPostId(postId);
+    public Result<IPage<Comment>> getCommentsByPostId(
+            @PathVariable Long postId,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        
+        Page<Comment> pageParam = new Page<>(page, size);
+        IPage<Comment> comments = commentService.getCommentsByPostId(pageParam, postId);
         return Result.success(comments);
     }
 
@@ -90,7 +93,7 @@ public class CommentController {
             @PathVariable Long commentId,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size) {
-
+        
         Page<Comment> pageParam = new Page<>(page, size);
         IPage<Comment> replies = commentService.getRepliesByCommentId(pageParam, commentId);
         return Result.success(replies);
