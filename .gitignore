@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# 敏感信息
+.env
+.env.*
