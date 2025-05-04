@@ -51,6 +51,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 使用baseMapper的selectOne方法执行查询，并返回查询结果
         return this.baseMapper.selectOne(wrapper);
     }
+    @Override
+   public User getUserByNickname(String nickname){
+        // 创建一个LambdaQueryWrapper对象，用于构建查询条件
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        // 在查询条件中添加等于条件，即用户名等于传入的username
+        wrapper.eq(User::getNickname, nickname);
+        // 使用baseMapper的selectOne方法执行查询，并返回查询结果
+        return this.baseMapper.selectOne(wrapper);
+    }
 
     @Override
     public User updateUserProfile(User user) {

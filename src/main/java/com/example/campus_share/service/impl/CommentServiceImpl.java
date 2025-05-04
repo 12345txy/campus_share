@@ -1,10 +1,12 @@
 package com.example.campus_share.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.campus_share.entity.Comment;
+import com.example.campus_share.entity.Like;
 import com.example.campus_share.entity.Post;
 import com.example.campus_share.mapper.CommentMapper;
 import com.example.campus_share.mapper.PostMapper;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
@@ -23,10 +26,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     private final PostMapper postMapper;
 
-    public CommentServiceImpl(PostMapper postMapper) {
+    public CommentServiceImpl(PostMapper postMapper, CommentMapper commentMapper) {
         this.postMapper = postMapper;
+        this.commentMapper = commentMapper;
     }
-
+    private final CommentMapper commentMapper;
     @Override
     @Transactional
     public Comment createComment(Comment comment) {
@@ -81,13 +85,13 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public IPage<Comment> getCommentsByPostId(Page<Comment> page, Long postId) {
-        return this.baseMapper.selectCommentsByPostId(page, postId);
+    public List<Comment> getCommentsByPostId(Long postId) {
+        return this.commentMapper.selectCommentsByPostId(postId);
     }
 
     @Override
-    public IPage<Comment> getRepliesByCommentId(Page<Comment> page, Long commentId) {
-        return this.baseMapper.selectRepliesByCommentId(page, commentId);
+    public List<Comment> getRepliesByCommentId( Long commentId) {
+        return this.commentMapper.selectRepliesByCommentId( commentId);
     }
 
     @Override
@@ -97,7 +101,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                .eq(Comment::getStatus, 0); // 只统计正常状态的评论
         return Math.toIntExact(this.count(wrapper));
     }
-    
+
+
     // 更新帖子的评论数
     // 定义一个私有方法，用于更新指定帖子的评论数量
     private void updatePostCommentCount(Long postId) {
@@ -128,4 +133,5 @@ private void updateParentCommentReplyCount(Long parentId) {
         this.updateById(parentComment);
     }
 }
+
 } 

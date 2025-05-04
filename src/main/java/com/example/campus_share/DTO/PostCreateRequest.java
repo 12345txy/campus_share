@@ -11,6 +11,6 @@ public class PostCreateRequest {
     private String author;       // 前端传用户名（可用于换成 userId）
     private String category;     // 分类名（可转 categoryId）
     private String coverImage;
-    private List<String> images; // 帖子配图
+    private List<String> image; // 帖子配图
 }
 

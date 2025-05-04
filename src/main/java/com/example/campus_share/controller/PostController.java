@@ -5,18 +5,30 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.campus_share.common.PageResult;
 import com.example.campus_share.common.Result;
 import com.example.campus_share.entity.Post;
+import com.example.campus_share.entity.PostDTO;
+import com.example.campus_share.entity.Tag;
 import com.example.campus_share.entity.User;
 import com.example.campus_share.service.CategoryService;
 import com.example.campus_share.service.PostService;
+import com.example.campus_share.service.TagService;
 import com.example.campus_share.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import com.example.campus_share.DTO.PostCreateRequest;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -26,7 +38,8 @@ public class PostController {
     private final UserService userService;
     @Autowired
     private CategoryService categoryService;
-
+    @Autowired
+    private TagService tagService;
     public PostController(PostService postService, UserService userService) {
         this.postService = postService;
         this.userService = userService;
@@ -50,7 +63,10 @@ public class PostController {
 //        Post createdPost = postService.createPost(post, tagIds);
 //        return Result.success(createdPost);
 //    }
-
+@GetMapping("/tags")
+public List<Tag> getAllTags() {
+    return tagService.getAllTags();
+}
     @PutMapping("/{id}")
     public Result<Post> updatePost(@PathVariable Long id, @RequestBody Post post, @RequestParam(required = false) List<Long> tagIds) {
         post.setId(id);
@@ -71,41 +87,70 @@ public class PostController {
     }
 
     @GetMapping
-    public Result<PageResult<Post>> getPostsByPage(
+    public Result<PageResult<PostDTO>> getPostsByPage(
             @RequestParam(defaultValue = "1") Long current,
-            @RequestParam(defaultValue = "10") Long size) {
+            @RequestParam(defaultValue = "6") Long size,
+            @RequestParam(defaultValue = "0") int sortOption,
+            @RequestParam(required = false) String tags) {
+        List<String> tagList = new ArrayList<>();
+        if (tags != null &&!tags.isEmpty()) {
+            // 将逗号分隔的字符串转换为List
+            tagList = Arrays.asList(tags.split(","));
+            tagList = tagList.stream()
+                    .map(tag -> {
+                        try {
+                            return URLDecoder.decode(tag, StandardCharsets.UTF_8.name());
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                            return null;
+                        }
+                    })
+                    .collect(Collectors.toList());
+        }
         Page<Post> page = new Page<>(current, size);
-        IPage<Post> postPage = postService.getPostsByPage(page);
+        System.out.println(tagList);
+        IPage<PostDTO> postPage = postService.getPostsByPage(page, sortOption, tagList);
         return Result.success(PageResult.build(postPage));
     }
-
     @GetMapping("/category/{categoryId}")
-    public Result<PageResult<Post>> getPostsByCategoryId(
+    public Result<PageResult<PostDTO>> getPostsByCategoryId(
             @PathVariable Long categoryId,
             @RequestParam(defaultValue = "1") Long current,
-            @RequestParam(defaultValue = "10") Long size) {
+            @RequestParam(defaultValue = "0") int sortOption,
+            @RequestParam(defaultValue = "6") Long size,
+            @RequestParam(required = false) List<String> tags) {
         Page<Post> page = new Page<>(current, size);
-        IPage<Post> postPage = postService.getPostsByCategoryId(page, categoryId);
+
+        IPage<PostDTO> postPage = postService.getPostsByCategoryId(page, categoryId,sortOption,tags);
         return Result.success(PageResult.build(postPage));
     }
 
     @GetMapping("/user/{userId}")
-    public Result<PageResult<Post>> getPostsByUserId(
+    public Result<PageResult<PostDTO>> getPostsByUserId(
             @PathVariable Long userId,
             @RequestParam(defaultValue = "1") Long current,
-            @RequestParam(defaultValue = "10") Long size) {
+            @RequestParam(defaultValue = "")String userName,
+            @RequestParam(defaultValue = "6") Long size,
+            @RequestParam(defaultValue = "0") int sortOption,
+            @RequestParam(required = false) List<String> tags) {
         Page<Post> page = new Page<>(current, size);
-        IPage<Post> postPage = postService.getPostsByUserId(page, userId);
+        if(userId==-1)userId=userService.getUserByNickname(userName).getId();
+        System.out.println(userName+" "+userId);
+
+        IPage<PostDTO> postPage= postService.getPostsByUserId(page, userId,sortOption,tags);
         return Result.success(PageResult.build(postPage));
     }
 
     @GetMapping("/search")
-    public Result<PageResult<Post>> searchPosts(
+    public Result<PageResult<PostDTO>> searchPosts(
             @RequestParam String keyword,
             @RequestParam(defaultValue = "1") Long current,
-            @RequestParam(defaultValue = "10") Long size) {
+            @RequestParam(defaultValue = "6") Long size,
+            @RequestParam(defaultValue = "0") int sortOption,
+            @RequestParam(required = false) List<String> tags) {
         Page<Post> page = new Page<>(current, size);
-        IPage<Post> postPage = postService.searchPosts(page, keyword);
+
+        IPage<PostDTO> postPage = postService.searchPosts(page, keyword,sortOption,tags);
         return Result.success(PageResult.build(postPage));
     }
 
@@ -124,7 +169,7 @@ public class PostController {
         post.setTitle(request.getTitle());
         post.setContent(request.getContent());
         post.setCoverImage(request.getCoverImage());
-        post.setImages(request.getImages()); // ✅ 多张图片
+        post.setImage(request.getImage()); // ✅ 多张图片
         post.setUserId(currentUser.getId()); // ✅ 登录用户ID
         post.setCategoryId(categoryService.getIdByName(request.getCategory())); // ✅ 分类转换
         post.setStatus(0); // 默认正常
@@ -140,6 +185,5 @@ public class PostController {
 
         return Result.success(post); // 返回保存成功的帖子
     }
-
 
 } 

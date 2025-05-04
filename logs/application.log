@@ -1,31 +1,22 @@
-2025-04-11T10:32:43.802+08:00  INFO 35484 --- [campus_share] [restartedMain] c.e.campus_share.CampusShareApplication  : Starting CampusShareApplication using Java 22.0.1 with PID 35484 (E:\IDEA\project\campus_share-main\target\classes started by ZY in E:\IDEA\project\campus_share-main)
-2025-04-11T10:32:43.808+08:00  INFO 35484 --- [campus_share] [restartedMain] c.e.campus_share.CampusShareApplication  : No active profile set, falling back to 1 default profile: "default"
-2025-04-11T10:32:43.854+08:00  INFO 35484 --- [campus_share] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2025-04-11T10:32:43.855+08:00  INFO 35484 --- [campus_share] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2025-04-11T10:32:44.536+08:00  INFO 35484 --- [campus_share] [restartedMain] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'ddlApplicationRunner' with a different definition: replacing [Root bean: class=null; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=true; fallback=false; factoryBeanName=ddlConfig; factoryMethodName=ddlApplicationRunner; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in class path resource [com/example/campus_share/config/DdlConfig.class]] with [Root bean: class=null; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; fallback=false; factoryBeanName=com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration; factoryMethodName=ddlApplicationRunner; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in class path resource [com/baomidou/mybatisplus/autoconfigure/MybatisPlusAutoConfiguration.class]]
-2025-04-11T10:32:44.814+08:00  WARN 35484 --- [campus_share] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'categoryMapper' and 'com.example.campus_share.mapper.CategoryMapper' mapperInterface. Bean already defined with the same name!
-2025-04-11T10:32:44.815+08:00  WARN 35484 --- [campus_share] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.example.campus_share.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
-2025-04-11T10:32:44.815+08:00  WARN 35484 --- [campus_share] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'postFavoriteMapper' and 'com.example.campus_share.mapper.PostFavoriteMapper' mapperInterface. Bean already defined with the same name!
-2025-04-11T10:32:44.815+08:00  WARN 35484 --- [campus_share] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'postLikeMapper' and 'com.example.campus_share.mapper.PostLikeMapper' mapperInterface. Bean already defined with the same name!
-2025-04-11T10:32:44.815+08:00  WARN 35484 --- [campus_share] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'postMapper' and 'com.example.campus_share.mapper.PostMapper' mapperInterface. Bean already defined with the same name!
-2025-04-11T10:32:44.815+08:00  WARN 35484 --- [campus_share] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'postTagMapper' and 'com.example.campus_share.mapper.PostTagMapper' mapperInterface. Bean already defined with the same name!
-2025-04-11T10:32:44.815+08:00  WARN 35484 --- [campus_share] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'sensitiveWordMapper' and 'com.example.campus_share.mapper.SensitiveWordMapper' mapperInterface. Bean already defined with the same name!
-2025-04-11T10:32:44.815+08:00  WARN 35484 --- [campus_share] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'systemConfigMapper' and 'com.example.campus_share.mapper.SystemConfigMapper' mapperInterface. Bean already defined with the same name!
-2025-04-11T10:32:44.815+08:00  WARN 35484 --- [campus_share] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.example.campus_share.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
-2025-04-11T10:32:44.816+08:00  WARN 35484 --- [campus_share] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userRelationMapper' and 'com.example.campus_share.mapper.UserRelationMapper' mapperInterface. Bean already defined with the same name!
-2025-04-11T10:32:44.816+08:00  WARN 35484 --- [campus_share] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userRoleMapper' and 'com.example.campus_share.mapper.UserRoleMapper' mapperInterface. Bean already defined with the same name!
-2025-04-11T10:32:44.816+08:00  WARN 35484 --- [campus_share] [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.example.campus_share.mapper]' package. Please check your configuration.
-2025-04-11T10:32:45.208+08:00  INFO 35484 --- [campus_share] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
-2025-04-11T10:32:45.221+08:00  INFO 35484 --- [campus_share] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-04-11T10:32:45.222+08:00  INFO 35484 --- [campus_share] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
-2025-04-11T10:32:45.269+08:00  INFO 35484 --- [campus_share] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-04-11T10:32:45.270+08:00  INFO 35484 --- [campus_share] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1414 ms
-2025-04-11T10:32:45.996+08:00  INFO 35484 --- [campus_share] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
-2025-04-11T10:32:46.269+08:00  INFO 35484 --- [campus_share] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
-2025-04-11T10:32:46.277+08:00  INFO 35484 --- [campus_share] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
-2025-04-11T10:32:46.277+08:00  INFO 35484 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
-2025-04-11T10:32:46.277+08:00  INFO 35484 --- [campus_share] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
-2025-04-11T10:32:46.278+08:00  INFO 35484 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+2025-05-03T14:59:02.924+08:00  INFO 28292 --- [campus_share] [restartedMain] c.e.campus_share.CampusShareApplication  : Starting CampusShareApplication using Java 22.0.2 with PID 28292 (E:\campus_share-main_an\campus_share-main\target\classes started by 86157 in E:\campus_share-main_an\campus_share-main)
+2025-05-03T14:59:02.928+08:00  INFO 28292 --- [campus_share] [restartedMain] c.e.campus_share.CampusShareApplication  : No active profile set, falling back to 1 default profile: "default"
+2025-05-03T14:59:02.961+08:00  INFO 28292 --- [campus_share] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-05-03T14:59:02.961+08:00  INFO 28292 --- [campus_share] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-05-03T14:59:03.640+08:00  INFO 28292 --- [campus_share] [restartedMain] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'ddlApplicationRunner' with a different definition: replacing [Root bean: class=null; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=true; fallback=false; factoryBeanName=ddlConfig; factoryMethodName=ddlApplicationRunner; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in class path resource [com/example/campus_share/config/DdlConfig.class]] with [Root bean: class=null; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; fallback=false; factoryBeanName=com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration; factoryMethodName=ddlApplicationRunner; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in class path resource [com/baomidou/mybatisplus/autoconfigure/MybatisPlusAutoConfiguration.class]]
+2025-05-03T14:59:04.232+08:00  INFO 28292 --- [campus_share] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-03T14:59:04.244+08:00  INFO 28292 --- [campus_share] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-03T14:59:04.244+08:00  INFO 28292 --- [campus_share] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-03T14:59:04.290+08:00  INFO 28292 --- [campus_share] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-03T14:59:04.290+08:00  INFO 28292 --- [campus_share] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1328 ms
+2025-05-03T14:59:04.661+08:00  INFO 28292 --- [campus_share] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-05-03T14:59:04.780+08:00  INFO 28292 --- [campus_share] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@516576db
+2025-05-03T14:59:04.782+08:00  INFO 28292 --- [campus_share] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-05-03T14:59:05.513+08:00  INFO 28292 --- [campus_share] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-05-03T14:59:05.831+08:00  INFO 28292 --- [campus_share] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2025-05-03T14:59:05.841+08:00  INFO 28292 --- [campus_share] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2025-05-03T14:59:05.841+08:00  INFO 28292 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
+2025-05-03T14:59:05.842+08:00  INFO 28292 --- [campus_share] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2025-05-03T14:59:05.843+08:00  INFO 28292 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
   Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
   NOT STARTED.
   Currently in standby mode.
@@ -33,35 +24,171 @@
   Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
   Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
 
-2025-04-11T10:32:46.278+08:00  INFO 35484 --- [campus_share] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
-2025-04-11T10:32:46.278+08:00  INFO 35484 --- [campus_share] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
-2025-04-11T10:32:46.278+08:00  INFO 35484 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@38c784e0
-2025-04-11T10:32:46.303+08:00  INFO 35484 --- [campus_share] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
-2025-04-11T10:32:46.601+08:00  INFO 35484 --- [campus_share] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2025-04-11T10:32:46.645+08:00  INFO 35484 --- [campus_share] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
-2025-04-11T10:32:46.646+08:00  INFO 35484 --- [campus_share] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
-2025-04-11T10:32:46.646+08:00  INFO 35484 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
-2025-04-11T10:32:46.655+08:00  INFO 35484 --- [campus_share] [restartedMain] c.e.campus_share.CampusShareApplication  : Started CampusShareApplication in 3.218 seconds (process running for 3.922)
-2025-04-11T10:32:46.925+08:00  INFO 35484 --- [campus_share] [RMI TCP Connection(2)-192.168.44.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-04-11T10:32:46.926+08:00  INFO 35484 --- [campus_share] [RMI TCP Connection(2)-192.168.44.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-04-11T10:32:46.927+08:00  INFO 35484 --- [campus_share] [RMI TCP Connection(2)-192.168.44.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2025-04-11T10:32:46.927+08:00  INFO 35484 --- [campus_share] [RMI TCP Connection(3)-192.168.44.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-04-11T10:32:47.045+08:00  INFO 35484 --- [campus_share] [RMI TCP Connection(3)-192.168.44.1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@29e3f614
-2025-04-11T10:32:47.053+08:00  INFO 35484 --- [campus_share] [RMI TCP Connection(3)-192.168.44.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-04-11T10:33:10.024+08:00  WARN 35484 --- [campus_share] [http-nio-8080-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported]
-2025-04-11T10:33:49.674+08:00  WARN 35484 --- [campus_share] [http-nio-8080-exec-6] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported]
-2025-04-11T10:53:44.121+08:00  WARN 35484 --- [campus_share] [http-nio-8080-exec-4] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported]
-2025-04-11T10:54:10.311+08:00  WARN 35484 --- [campus_share] [http-nio-8080-exec-3] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported]
-2025-04-11T10:55:32.635+08:00  WARN 35484 --- [campus_share] [http-nio-8080-exec-7] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported]
-2025-04-11T10:55:35.093+08:00  WARN 35484 --- [campus_share] [http-nio-8080-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported]
-2025-04-11T10:55:35.824+08:00  WARN 35484 --- [campus_share] [http-nio-8080-exec-8] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported]
-2025-04-11T10:56:03.767+08:00  WARN 35484 --- [campus_share] [http-nio-8080-exec-10] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported]
-2025-04-11T11:00:19.766+08:00  INFO 35484 --- [campus_share] [SpringApplicationShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
-2025-04-11T11:00:19.767+08:00  INFO 35484 --- [campus_share] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
-2025-04-11T11:00:19.771+08:00  INFO 35484 --- [campus_share] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
-2025-04-11T11:00:19.776+08:00  INFO 35484 --- [campus_share] [SpringApplicationShutdownHook] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
-2025-04-11T11:00:19.777+08:00  INFO 35484 --- [campus_share] [SpringApplicationShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
-2025-04-11T11:00:19.777+08:00  INFO 35484 --- [campus_share] [SpringApplicationShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
-2025-04-11T11:00:19.777+08:00  INFO 35484 --- [campus_share] [SpringApplicationShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
-2025-04-11T11:00:19.778+08:00  INFO 35484 --- [campus_share] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-04-11T11:00:19.784+08:00  INFO 35484 --- [campus_share] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-05-03T14:59:05.843+08:00  INFO 28292 --- [campus_share] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2025-05-03T14:59:05.843+08:00  INFO 28292 --- [campus_share] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
+2025-05-03T14:59:05.843+08:00  INFO 28292 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@11399765
+2025-05-03T14:59:05.870+08:00  INFO 28292 --- [campus_share] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-05-03T14:59:06.246+08:00  INFO 28292 --- [campus_share] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-03T14:59:06.307+08:00  INFO 28292 --- [campus_share] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-03T14:59:06.309+08:00  INFO 28292 --- [campus_share] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2025-05-03T14:59:06.309+08:00  INFO 28292 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2025-05-03T14:59:06.319+08:00  INFO 28292 --- [campus_share] [restartedMain] c.e.campus_share.CampusShareApplication  : Started CampusShareApplication in 3.72 seconds (process running for 4.524)
+2025-05-03T14:59:06.954+08:00  INFO 28292 --- [campus_share] [RMI TCP Connection(2)-10.129.135.114] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-03T14:59:06.955+08:00  INFO 28292 --- [campus_share] [RMI TCP Connection(2)-10.129.135.114] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-03T14:59:06.957+08:00  INFO 28292 --- [campus_share] [RMI TCP Connection(2)-10.129.135.114] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-05-03T16:02:13.897+08:00  INFO 28292 --- [campus_share] [http-nio-8080-exec-9] c.e.c.service.impl.CommentServiceImpl    : 开始创建评论: Comment(id=null, postId=1, userId=2, parentId=3, content=嘻嘻, status=null, createTime=null, updateTime=null, avatar=https://example.com/avatar/user1.jpg, nickname=测试用户, likeCount=null, replyCount=null)
+2025-05-03T16:02:13.906+08:00  INFO 28292 --- [campus_share] [http-nio-8080-exec-9] c.e.c.service.impl.CommentServiceImpl    : 评论保存结果: true, 评论ID: 276
+2025-05-03T16:02:13.906+08:00  INFO 28292 --- [campus_share] [http-nio-8080-exec-9] c.e.c.service.impl.CommentServiceImpl    : 开始更新帖子评论数, 帖子ID: 1
+2025-05-03T16:02:13.909+08:00  INFO 28292 --- [campus_share] [http-nio-8080-exec-9] c.e.c.service.impl.CommentServiceImpl    : 更新父评论回复数, 父评论ID: 3
+2025-05-03T16:40:10.711+08:00  INFO 28292 --- [campus_share] [http-nio-8080-exec-4] c.e.c.service.impl.CommentServiceImpl    : 开始创建评论: Comment(id=null, postId=1, userId=2, parentId=4, content=哈哈哈哈哈, status=null, createTime=null, updateTime=null, avatar=https://example.com/avatar/user1.jpg, nickname=测试用户, likeCount=null, replyCount=null)
+2025-05-03T16:40:10.714+08:00  INFO 28292 --- [campus_share] [http-nio-8080-exec-4] c.e.c.service.impl.CommentServiceImpl    : 评论保存结果: true, 评论ID: 277
+2025-05-03T16:40:10.714+08:00  INFO 28292 --- [campus_share] [http-nio-8080-exec-4] c.e.c.service.impl.CommentServiceImpl    : 开始更新帖子评论数, 帖子ID: 1
+2025-05-03T16:40:10.717+08:00  INFO 28292 --- [campus_share] [http-nio-8080-exec-4] c.e.c.service.impl.CommentServiceImpl    : 更新父评论回复数, 父评论ID: 4
+2025-05-03T17:02:16.576+08:00  WARN 28292 --- [campus_share] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=5m39s805ms572µs800ns).
+2025-05-03T18:43:46.214+08:00  WARN 28292 --- [campus_share] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h36m29s595ms849µs400ns).
+2025-05-03T19:11:58.882+08:00  INFO 28292 --- [campus_share] [http-nio-8080-exec-1] c.e.c.service.impl.CommentServiceImpl    : 开始创建评论: Comment(id=null, postId=1, userId=2, parentId=0, content=O(∩_∩)O哈哈~, status=null, createTime=null, updateTime=null, avatar=https://example.com/avatar/user1.jpg, nickname=测试用户, likeCount=null, replyCount=null)
+2025-05-03T19:11:58.883+08:00  INFO 28292 --- [campus_share] [http-nio-8080-exec-1] c.e.c.service.impl.CommentServiceImpl    : 评论保存结果: true, 评论ID: 278
+2025-05-03T19:11:58.883+08:00  INFO 28292 --- [campus_share] [http-nio-8080-exec-1] c.e.c.service.impl.CommentServiceImpl    : 开始更新帖子评论数, 帖子ID: 1
+2025-05-03T20:08:33.281+08:00  INFO 8556 --- [campus_share] [restartedMain] c.e.campus_share.CampusShareApplication  : Starting CampusShareApplication using Java 22.0.2 with PID 8556 (E:\campus_share-main_an\campus_share-main\target\classes started by 86157 in E:\campus_share-main_an\campus_share-main)
+2025-05-03T20:08:33.283+08:00  INFO 8556 --- [campus_share] [restartedMain] c.e.campus_share.CampusShareApplication  : No active profile set, falling back to 1 default profile: "default"
+2025-05-03T20:08:33.327+08:00  INFO 8556 --- [campus_share] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-05-03T20:08:33.327+08:00  INFO 8556 --- [campus_share] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-05-03T20:08:34.218+08:00  INFO 8556 --- [campus_share] [restartedMain] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'ddlApplicationRunner' with a different definition: replacing [Root bean: class=null; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=true; fallback=false; factoryBeanName=ddlConfig; factoryMethodName=ddlApplicationRunner; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in class path resource [com/example/campus_share/config/DdlConfig.class]] with [Root bean: class=null; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; fallback=false; factoryBeanName=com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration; factoryMethodName=ddlApplicationRunner; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in class path resource [com/baomidou/mybatisplus/autoconfigure/MybatisPlusAutoConfiguration.class]]
+2025-05-03T20:08:35.069+08:00  INFO 8556 --- [campus_share] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-03T20:08:35.082+08:00  INFO 8556 --- [campus_share] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-03T20:08:35.082+08:00  INFO 8556 --- [campus_share] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-03T20:08:35.125+08:00  INFO 8556 --- [campus_share] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-03T20:08:35.126+08:00  INFO 8556 --- [campus_share] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1798 ms
+2025-05-03T20:08:35.585+08:00  INFO 8556 --- [campus_share] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-05-03T20:08:35.704+08:00  INFO 8556 --- [campus_share] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1fad87b1
+2025-05-03T20:08:35.706+08:00  INFO 8556 --- [campus_share] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-05-03T20:08:36.479+08:00  INFO 8556 --- [campus_share] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-05-03T20:08:36.794+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2025-05-03T20:08:36.803+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2025-05-03T20:08:36.803+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
+2025-05-03T20:08:36.804+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2025-05-03T20:08:36.804+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2025-05-03T20:08:36.805+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2025-05-03T20:08:36.805+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
+2025-05-03T20:08:36.805+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@7b69bfc5
+2025-05-03T20:08:36.829+08:00  INFO 8556 --- [campus_share] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-05-03T20:08:37.184+08:00  INFO 8556 --- [campus_share] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-03T20:08:37.236+08:00  INFO 8556 --- [campus_share] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-03T20:08:37.237+08:00  INFO 8556 --- [campus_share] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2025-05-03T20:08:37.238+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2025-05-03T20:08:37.246+08:00  INFO 8556 --- [campus_share] [restartedMain] c.e.campus_share.CampusShareApplication  : Started CampusShareApplication in 4.346 seconds (process running for 5.324)
+2025-05-03T20:08:37.519+08:00  INFO 8556 --- [campus_share] [RMI TCP Connection(3)-10.129.135.114] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-03T20:08:37.519+08:00  INFO 8556 --- [campus_share] [RMI TCP Connection(3)-10.129.135.114] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-03T20:08:37.522+08:00  INFO 8556 --- [campus_share] [RMI TCP Connection(3)-10.129.135.114] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-05-03T21:06:22.837+08:00  INFO 8556 --- [campus_share] [http-nio-8080-exec-10] c.e.c.service.impl.CommentServiceImpl    : 开始创建评论: Comment(id=null, postId=1, userId=2, parentId=3, content=不知道, status=null, createTime=null, updateTime=null, avatar=https://example.com/avatar/user1.jpg, nickname=测试用户, likeCount=null, replyCount=null)
+2025-05-03T21:06:22.846+08:00  INFO 8556 --- [campus_share] [http-nio-8080-exec-10] c.e.c.service.impl.CommentServiceImpl    : 评论保存结果: true, 评论ID: 279
+2025-05-03T21:06:22.846+08:00  INFO 8556 --- [campus_share] [http-nio-8080-exec-10] c.e.c.service.impl.CommentServiceImpl    : 开始更新帖子评论数, 帖子ID: 1
+2025-05-03T21:06:22.850+08:00  INFO 8556 --- [campus_share] [http-nio-8080-exec-10] c.e.c.service.impl.CommentServiceImpl    : 更新父评论回复数, 父评论ID: 3
+2025-05-03T21:07:09.073+08:00  INFO 8556 --- [campus_share] [http-nio-8080-exec-6] c.e.c.service.impl.CommentServiceImpl    : 开始创建评论: Comment(id=null, postId=1, userId=2, parentId=4, content=孙子, status=null, createTime=null, updateTime=null, avatar=https://example.com/avatar/user1.jpg, nickname=测试用户, likeCount=null, replyCount=null)
+2025-05-03T21:07:09.090+08:00  INFO 8556 --- [campus_share] [http-nio-8080-exec-6] c.e.c.service.impl.CommentServiceImpl    : 评论保存结果: true, 评论ID: 280
+2025-05-03T21:07:09.091+08:00  INFO 8556 --- [campus_share] [http-nio-8080-exec-6] c.e.c.service.impl.CommentServiceImpl    : 开始更新帖子评论数, 帖子ID: 1
+2025-05-03T21:07:09.093+08:00  INFO 8556 --- [campus_share] [http-nio-8080-exec-6] c.e.c.service.impl.CommentServiceImpl    : 更新父评论回复数, 父评论ID: 4
+2025-05-03T21:25:17.122+08:00  INFO 8556 --- [campus_share] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (0 additions, 2 deletions, 0 modifications)
+2025-05-03T21:25:17.127+08:00  INFO 8556 --- [campus_share] [Thread-5] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2025-05-03T21:25:17.128+08:00  INFO 8556 --- [campus_share] [Thread-5] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-03T21:25:17.133+08:00  INFO 8556 --- [campus_share] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-03T21:25:17.140+08:00  INFO 8556 --- [campus_share] [Thread-5] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2025-05-03T21:25:17.141+08:00  INFO 8556 --- [campus_share] [Thread-5] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2025-05-03T21:25:17.141+08:00  INFO 8556 --- [campus_share] [Thread-5] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2025-05-03T21:25:17.399+08:00  INFO 8556 --- [campus_share] [Thread-5] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2025-05-03T21:25:17.401+08:00  INFO 8556 --- [campus_share] [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-05-03T21:25:17.405+08:00  INFO 8556 --- [campus_share] [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-05-03T21:25:17.519+08:00  INFO 8556 --- [campus_share] [restartedMain] c.e.campus_share.CampusShareApplication  : Starting CampusShareApplication using Java 22.0.2 with PID 8556 (E:\campus_share-main_an\campus_share-main\target\classes started by 86157 in E:\campus_share-main_an\campus_share-main)
+2025-05-03T21:25:17.519+08:00  INFO 8556 --- [campus_share] [restartedMain] c.e.campus_share.CampusShareApplication  : No active profile set, falling back to 1 default profile: "default"
+2025-05-03T21:25:17.773+08:00  INFO 8556 --- [campus_share] [restartedMain] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'ddlApplicationRunner' with a different definition: replacing [Root bean: class=null; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=true; fallback=false; factoryBeanName=ddlConfig; factoryMethodName=ddlApplicationRunner; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in class path resource [com/example/campus_share/config/DdlConfig.class]] with [Root bean: class=null; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; fallback=false; factoryBeanName=com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration; factoryMethodName=ddlApplicationRunner; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in class path resource [com/baomidou/mybatisplus/autoconfigure/MybatisPlusAutoConfiguration.class]]
+2025-05-03T21:25:18.069+08:00  INFO 8556 --- [campus_share] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-03T21:25:18.071+08:00  INFO 8556 --- [campus_share] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-03T21:25:18.072+08:00  INFO 8556 --- [campus_share] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-03T21:25:18.115+08:00  INFO 8556 --- [campus_share] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-03T21:25:18.116+08:00  INFO 8556 --- [campus_share] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 595 ms
+2025-05-03T21:25:18.313+08:00  INFO 8556 --- [campus_share] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2025-05-03T21:25:18.318+08:00  INFO 8556 --- [campus_share] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7f573cb6
+2025-05-03T21:25:18.318+08:00  INFO 8556 --- [campus_share] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2025-05-03T21:25:18.585+08:00  INFO 8556 --- [campus_share] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-05-03T21:25:18.679+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2025-05-03T21:25:18.680+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2025-05-03T21:25:18.680+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
+2025-05-03T21:25:18.680+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2025-05-03T21:25:18.680+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2025-05-03T21:25:18.680+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2025-05-03T21:25:18.681+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
+2025-05-03T21:25:18.681+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@15c209d9
+2025-05-03T21:25:18.696+08:00  INFO 8556 --- [campus_share] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-05-03T21:25:18.805+08:00  INFO 8556 --- [campus_share] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-03T21:25:18.826+08:00  INFO 8556 --- [campus_share] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-03T21:25:18.826+08:00  INFO 8556 --- [campus_share] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2025-05-03T21:25:18.826+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2025-05-03T21:25:18.833+08:00  INFO 8556 --- [campus_share] [restartedMain] c.e.campus_share.CampusShareApplication  : Started CampusShareApplication in 1.356 seconds (process running for 4606.909)
+2025-05-03T21:25:18.835+08:00  INFO 8556 --- [campus_share] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-05-03T21:25:20.215+08:00  INFO 8556 --- [campus_share] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2025-05-03T21:25:20.216+08:00  INFO 8556 --- [campus_share] [Thread-7] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2025-05-03T21:25:20.217+08:00  INFO 8556 --- [campus_share] [Thread-7] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-03T21:25:20.219+08:00  INFO 8556 --- [campus_share] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-03T21:25:20.221+08:00  INFO 8556 --- [campus_share] [Thread-7] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2025-05-03T21:25:20.221+08:00  INFO 8556 --- [campus_share] [Thread-7] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2025-05-03T21:25:20.221+08:00  INFO 8556 --- [campus_share] [Thread-7] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2025-05-03T21:25:20.689+08:00  INFO 8556 --- [campus_share] [Thread-7] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2025-05-03T21:25:20.690+08:00  INFO 8556 --- [campus_share] [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2025-05-03T21:25:20.694+08:00  INFO 8556 --- [campus_share] [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2025-05-03T21:25:20.800+08:00  INFO 8556 --- [campus_share] [restartedMain] c.e.campus_share.CampusShareApplication  : Starting CampusShareApplication using Java 22.0.2 with PID 8556 (E:\campus_share-main_an\campus_share-main\target\classes started by 86157 in E:\campus_share-main_an\campus_share-main)
+2025-05-03T21:25:20.800+08:00  INFO 8556 --- [campus_share] [restartedMain] c.e.campus_share.CampusShareApplication  : No active profile set, falling back to 1 default profile: "default"
+2025-05-03T21:25:21.006+08:00  INFO 8556 --- [campus_share] [restartedMain] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'ddlApplicationRunner' with a different definition: replacing [Root bean: class=null; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=true; fallback=false; factoryBeanName=ddlConfig; factoryMethodName=ddlApplicationRunner; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in class path resource [com/example/campus_share/config/DdlConfig.class]] with [Root bean: class=null; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; fallback=false; factoryBeanName=com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration; factoryMethodName=ddlApplicationRunner; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in class path resource [com/baomidou/mybatisplus/autoconfigure/MybatisPlusAutoConfiguration.class]]
+2025-05-03T21:25:21.232+08:00  INFO 8556 --- [campus_share] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-03T21:25:21.233+08:00  INFO 8556 --- [campus_share] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-03T21:25:21.233+08:00  INFO 8556 --- [campus_share] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-05-03T21:25:21.264+08:00  INFO 8556 --- [campus_share] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-03T21:25:21.264+08:00  INFO 8556 --- [campus_share] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 463 ms
+2025-05-03T21:25:21.420+08:00  INFO 8556 --- [campus_share] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2025-05-03T21:25:21.425+08:00  INFO 8556 --- [campus_share] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@697e3716
+2025-05-03T21:25:21.425+08:00  INFO 8556 --- [campus_share] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2025-05-03T21:25:21.727+08:00  INFO 8556 --- [campus_share] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-05-03T21:25:21.877+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2025-05-03T21:25:21.878+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2025-05-03T21:25:21.878+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
+2025-05-03T21:25:21.878+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2025-05-03T21:25:21.878+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2025-05-03T21:25:21.879+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2025-05-03T21:25:21.879+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
+2025-05-03T21:25:21.879+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@56edc150
+2025-05-03T21:25:21.896+08:00  INFO 8556 --- [campus_share] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-05-03T21:25:22.025+08:00  INFO 8556 --- [campus_share] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-05-03T21:25:22.059+08:00  INFO 8556 --- [campus_share] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-03T21:25:22.060+08:00  INFO 8556 --- [campus_share] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2025-05-03T21:25:22.060+08:00  INFO 8556 --- [campus_share] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2025-05-03T21:25:22.068+08:00  INFO 8556 --- [campus_share] [restartedMain] c.e.campus_share.CampusShareApplication  : Started CampusShareApplication in 1.297 seconds (process running for 4610.145)
+2025-05-03T21:25:22.071+08:00  INFO 8556 --- [campus_share] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-05-03T21:25:42.276+08:00  INFO 8556 --- [campus_share] [SpringApplicationShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2025-05-03T21:25:42.276+08:00  INFO 8556 --- [campus_share] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-03T21:25:42.281+08:00  INFO 8556 --- [campus_share] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-05-03T21:25:42.284+08:00  INFO 8556 --- [campus_share] [SpringApplicationShutdownHook] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2025-05-03T21:25:42.284+08:00  INFO 8556 --- [campus_share] [SpringApplicationShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2025-05-03T21:25:42.284+08:00  INFO 8556 --- [campus_share] [SpringApplicationShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2025-05-03T21:25:42.783+08:00  INFO 8556 --- [campus_share] [SpringApplicationShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2025-05-03T21:25:42.784+08:00  INFO 8556 --- [campus_share] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2025-05-03T21:25:42.787+08:00  INFO 8556 --- [campus_share] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.

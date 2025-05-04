@@ -6,10 +6,15 @@ import com.example.campus_share.common.Result;
 import com.example.campus_share.entity.Comment;
 import com.example.campus_share.entity.User;
 import com.example.campus_share.service.CommentService;
+import com.example.campus_share.service.LikeService;
 import com.example.campus_share.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/comments")
@@ -17,7 +22,8 @@ public class CommentController {
 
     private final CommentService commentService;
     private final UserService userService;
-
+    @Autowired
+    private LikeService likeService;
     public CommentController(CommentService commentService, UserService userService) {
         this.commentService = commentService;
         this.userService = userService;
@@ -46,7 +52,15 @@ public class CommentController {
         }
         
         comment.setUserId(currentUser.getId());
+        comment.setAvatar(currentUser.getAvatar());
+        if(currentUser.getNickname()!=null) {
+            comment.setNickname(currentUser.getNickname());
+        }
+        else {
+            comment.setNickname(currentUser.getUsername());
+        }
         Comment createdComment = commentService.createComment(comment);
+        System.out.println(createdComment);
         return Result.success(createdComment);
     }
 
@@ -78,24 +92,61 @@ public class CommentController {
     }
 
     @GetMapping("/post/{postId}")
-    public Result<IPage<Comment>> getCommentsByPostId(
-            @PathVariable Long postId,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        
-        Page<Comment> pageParam = new Page<>(page, size);
-        IPage<Comment> comments = commentService.getCommentsByPostId(pageParam, postId);
+    public Result<List<Comment>> getCommentsByPostId(@PathVariable Long postId) {
+        List<Comment> comments = commentService.getCommentsByPostId(postId);
         return Result.success(comments);
     }
 
     @GetMapping("/replies/{commentId}")
-    public Result<IPage<Comment>> getRepliesByCommentId(
-            @PathVariable Long commentId,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        
-        Page<Comment> pageParam = new Page<>(page, size);
-        IPage<Comment> replies = commentService.getRepliesByCommentId(pageParam, commentId);
+    public Result<List<Comment>>  getRepliesByCommentId(
+            @PathVariable Long commentId){
+
+
+        List<Comment> replies = commentService.getRepliesByCommentId(commentId);
         return Result.success(replies);
+    }
+    @GetMapping("/like/exists")
+    public boolean existsByUserIdAndTargetIdAndType( @RequestParam Long targetId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        User currentUser = userService.getUserByUsername(username);
+        Integer type = 1; // 固定 type 为 1
+        return likeService.existsByUserIdAndTargetIdAndType(currentUser.getId(), targetId, type);
+    }
+    @PostMapping("/like/{commentId}")
+    public Result<Boolean> likePost(@PathVariable Long commentId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        User currentUser = userService.getUserByUsername(username);
+        if (currentUser == null) {
+            return Result.error(403, "用户未登录或不存在");
+        }
+
+        boolean success = likeService.likeComment(commentId, currentUser.getId());
+        if (success) {
+            return Result.success(true);
+        } else {
+            return Result.error(400, "点赞失败，可能已点赞");
+        }
+    }
+
+    @DeleteMapping("/like/{commentId}")
+    public Result<Boolean> unlikePost(@PathVariable Long commentId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        User currentUser = userService.getUserByUsername(username);
+        if (currentUser == null) {
+            return Result.error(403, "用户未登录或不存在");
+        }
+
+        boolean success = likeService.unlikeComment(commentId, currentUser.getId());
+        if (success) {
+            return Result.success(true);
+        } else {
+            return Result.error(400, "取消点赞失败");
+        }
     }
 } 
