@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.campus_share.entity.Post;
+import com.example.campus_share.entity.PostDTO;
+import com.example.campus_share.entity.Tag;
 
 import java.util.List;
 
@@ -17,11 +19,21 @@ public interface PostService extends IService<Post> {
     // 根据id获取帖子
     Post getPostById(Long id);
     // 根据分页参数获取帖子列表
-    IPage<Post> getPostsByPage(Page<Post> page);
+    IPage<PostDTO> getPostsByPage(Page<Post> page,int sortOption,List<String> tags);
     // 根据分类ID获取帖子列表
-    IPage<Post> getPostsByCategoryId(Page<Post> page, Long categoryId);
+    IPage<PostDTO>  getPostsByCategoryId(Page<Post> page, Long categoryId,int sortOption,List<String> tags);
     // 根据用户ID获取帖子列表
-    IPage<Post> getPostsByUserId(Page<Post> page, Long userId);
+    IPage<PostDTO> getPostsByUserId(Page<Post> page, Long userId,int sortOption,List<String> tags);
     // 根据关键字搜索帖子，并返回分页结果
-    IPage<Post> searchPosts(Page<Post> page, String keyword);
-} 
+    IPage<PostDTO> searchPosts(Page<Post> page, String keyword,int sortOption,List<String> tags);
+<<<<<<< HEAD
+    IPage<PostDTO> getFavoritesPostsByUserId(Page<Post> page, Long userId);
+
+    IPage<PostDTO> getLikesPostsByUserId(Page<Post> page, Long userId);
+    public IPage<Post> getLikePostsByUserId(Page<Post> page, Long userId);
+    public IPage<Post> getFavoritePostsByUserId(Page<Post> page, Long userId);
+=======
+
+
+>>>>>>> 02abc81ad64c5a154a4d68136070072802133db1
+}

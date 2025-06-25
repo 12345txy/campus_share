@@ -1,15 +1,18 @@
 package com.example.campus_share.service;
 
-import java.time.LocalDate;
-import java.util.Map;
+import com.example.campus_share.DTO.TrendDTO;
 
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
 public interface AdminStatsService {
-    // 获取仪表盘统计数据
     Map<String, Object> getDashboardStats();
-    
-    // 获取用户活跃度统计
-    Map<String, Object> getUserActivityStats(LocalDate startDate, LocalDate endDate);
-    
-    // 获取内容统计数据
-    Map<String, Object> getContentStats(LocalDate startDate, LocalDate endDate);
-} 
+
+    TrendDTO getUserActivityStats(LocalDate startDate, LocalDate endDate);
+
+    Map<String, TrendDTO> getContentStats(LocalDate startDate, LocalDate endDate);
+
+
+    List<Map<String, Object>> getHotPosts(String sort, int limit);
+}

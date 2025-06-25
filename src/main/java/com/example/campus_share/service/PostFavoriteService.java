@@ -20,5 +20,4 @@ public interface PostFavoriteService extends IService<PostFavorite> {
     int getFavoriteCount(Long postId);
     
     // 获取用户收藏的帖子列表
-    IPage<Post> getFavoritePostsByUserId(Page<Post> page, Long userId);
-} 
+}

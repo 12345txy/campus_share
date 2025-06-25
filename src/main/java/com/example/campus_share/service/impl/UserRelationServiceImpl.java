@@ -1,8 +1,6 @@
 package com.example.campus_share.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.campus_share.entity.User;
 import com.example.campus_share.entity.UserRelation;
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-
+import java.util.List;
 @Service
 public class UserRelationServiceImpl extends ServiceImpl<UserRelationMapper, UserRelation> implements UserRelationService {
 
@@ -83,14 +81,15 @@ public class UserRelationServiceImpl extends ServiceImpl<UserRelationMapper, Use
     }
 
     @Override
-    public IPage<User> getFollowingList(Page<User> page, Long userId) {
-        return this.baseMapper.selectFollowingUsers(page, userId);
+    public List<User> getFollowingList(Long userId) {
+        return this.baseMapper.selectFollowingUsers(userId);
     }
 
     @Override
-    public IPage<User> getFollowerList(Page<User> page, Long userId) {
-        return this.baseMapper.selectFollowerUsers(page, userId);
+    public  List<User>  getFollowerList(Long userId) {
+        return this.baseMapper.selectFollowerUsers(userId);
     }
+
 
     @Override
     public int getFollowingCount(Long userId) {

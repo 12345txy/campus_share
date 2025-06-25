@@ -13,6 +13,8 @@ CREATE TABLE `t_user` (
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `is_admin` tinyint DEFAULT '0' COMMENT '是否管理员：0-否 1-是',
+  `follow_count` int DEFAULT '0' COMMENT '关注数',
+  `follower_count` int DEFAULT '0' COMMENT '粉丝数',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
@@ -23,6 +25,11 @@ CREATE TABLE `t_post` (
   `user_id` bigint NOT NULL COMMENT '用户ID',
   `title` varchar(100) NOT NULL COMMENT '标题',
   `content` text NOT NULL COMMENT '内容',
+<<<<<<< HEAD
+  `images` text NOT NULL COMMENT '组图URL',
+=======
+  `image` text NOT NULL COMMENT '组图URL',
+>>>>>>> 02abc81ad64c5a154a4d68136070072802133db1
   `category_id` bigint DEFAULT NULL COMMENT '分类ID',
   `cover_image` varchar(255) DEFAULT NULL COMMENT '封面图片URL',
   `status` tinyint DEFAULT '0' COMMENT '状态：0-正常 1-审核中 2-已删除',
@@ -44,9 +51,19 @@ CREATE TABLE `t_comment` (
   `user_id` bigint NOT NULL COMMENT '用户ID',
   `parent_id` bigint DEFAULT '0' COMMENT '父评论ID，用于回复功能',
   `content` varchar(500) NOT NULL COMMENT '内容',
+  `avatar` varchar(500) NOT NULL COMMENT '评论者头像',
+  `nickname` varchar(500) NOT NULL COMMENT '评论者昵称',
   `status` tinyint DEFAULT '0' COMMENT '状态：0-正常 1-隐藏 2-删除',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+<<<<<<< HEAD
+  `likeCount` bigint DEFAULT '0' COMMENT '点赞数',
+  `replyCount` bigint DEFAULT '0' COMMENT '回复数',
+=======
+  `like_count` bigint DEFAULT '0' COMMENT '点赞数',
+  `reply_count` bigint DEFAULT '0' COMMENT '回复数',
+>>>>>>> 02abc81ad64c5a154a4d68136070072802133db1
+
   PRIMARY KEY (`id`),
   KEY `idx_post_id` (`post_id`),
   KEY `idx_user_id` (`user_id`),

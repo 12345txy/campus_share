@@ -1,9 +1,6 @@
 package com.example.campus_share.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.example.campus_share.entity.Post;
-import com.example.campus_share.entity.User;
-import com.example.campus_share.entity.Comment;
+import com.example.campus_share.DTO.TrendDTO;
 import com.example.campus_share.mapper.PostMapper;
 import com.example.campus_share.mapper.UserMapper;
 import com.example.campus_share.mapper.CommentMapper;
@@ -12,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 @Service
 public class AdminStatsServiceImpl implements AdminStatsService {
@@ -31,67 +30,63 @@ public class AdminStatsServiceImpl implements AdminStatsService {
     @Override
     public Map<String, Object> getDashboardStats() {
         Map<String, Object> stats = new HashMap<>();
-        
-        // 总用户数
-        long totalUsers = userMapper.selectCount(null);
-        
-        // 总帖子数
-        long totalPosts = postMapper.selectCount(null);
-        
-        // 总评论数
-        long totalComments = commentMapper.selectCount(null);
-        
-        // 今日新增用户
+
+        long userTotal = userMapper.selectCount(null);
+        long postTotal = postMapper.selectCount(null);
+        long commentTotal = commentMapper.selectCount(null);
+
         LocalDateTime todayStart = LocalDate.now().atStartOfDay();
-        LambdaQueryWrapper<User> userWrapper = new LambdaQueryWrapper<>();
-        userWrapper.ge(User::getCreateTime, todayStart);
-        long newUsers = userMapper.selectCount(userWrapper);
-        
-        // 今日新增帖子
-        LambdaQueryWrapper<Post> postWrapper = new LambdaQueryWrapper<>();
-        postWrapper.ge(Post::getCreateTime, todayStart);
-        long newPosts = postMapper.selectCount(postWrapper);
-        
-        stats.put("totalUsers", totalUsers);
-        stats.put("totalPosts", totalPosts);
-        stats.put("totalComments", totalComments);
-        stats.put("newUsers", newUsers);
-        stats.put("newPosts", newPosts);
-        
+        long userToday = userMapper.selectUserActivityStats(todayStart, LocalDateTime.now()).stream().mapToInt(m -> (int) m.get("count")).sum();
+        long postToday = postMapper.selectPostStats(todayStart, LocalDateTime.now()).stream().mapToInt(m -> (int) m.get("count")).sum();
+
+        stats.put("userTotal", userTotal);
+        stats.put("postTotal", postTotal);
+        stats.put("commentTotal", commentTotal);
+        stats.put("userToday", userToday);
+        stats.put("postToday", postToday);
+
         return stats;
     }
 
     @Override
-    public Map<String, Object> getUserActivityStats(LocalDate startDate, LocalDate endDate) {
-        // 如果没有指定日期，默认为最近30天
-        if (startDate == null) {
-            startDate = LocalDate.now().minusDays(29);
-        }
-        if (endDate == null) {
-            endDate = LocalDate.now();
-        }
-        
-        Map<String, Object> stats = new HashMap<>();
-        
-        // TODO: 实现按日期统计用户活跃度的逻辑，可以使用自定义SQL
-        
-        return stats;
+    public TrendDTO getUserActivityStats(LocalDate startDate, LocalDate endDate) {
+        if (startDate == null) startDate = LocalDate.now().minusDays(6);
+        if (endDate == null) endDate = LocalDate.now();
+
+        List<Map<String, Object>> rawData = userMapper.selectUserActivityStats(
+                startDate.atStartOfDay(), endDate.atTime(23, 59, 59));
+        return toTrendDTO(rawData);
     }
 
     @Override
-    public Map<String, Object> getContentStats(LocalDate startDate, LocalDate endDate) {
-        // 如果没有指定日期，默认为最近30天
-        if (startDate == null) {
-            startDate = LocalDate.now().minusDays(29);
-        }
-        if (endDate == null) {
-            endDate = LocalDate.now();
-        }
-        
-        Map<String, Object> stats = new HashMap<>();
-        
-        // TODO: 实现按日期统计内容数据的逻辑，可以使用自定义SQL
-        
-        return stats;
+    public Map<String, TrendDTO> getContentStats(LocalDate startDate, LocalDate endDate) {
+        if (startDate == null) startDate = LocalDate.now().minusDays(6);
+        if (endDate == null) endDate = LocalDate.now();
+
+        List<Map<String, Object>> postStats = postMapper.selectPostStats(startDate.atStartOfDay(), endDate.atTime(23, 59, 59));
+        List<Map<String, Object>> commentStats = commentMapper.selectCommentStats(startDate.atStartOfDay(), endDate.atTime(23, 59, 59));
+
+        Map<String, TrendDTO> map = new HashMap<>();
+        map.put("post", toTrendDTO(postStats));
+        map.put("comment", toTrendDTO(commentStats));
+        return map;
     }
-} 
+
+    private TrendDTO toTrendDTO(List<Map<String, Object>> data) {
+        List<String> dates = new ArrayList<>();
+        List<Integer> values = new ArrayList<>();
+
+        for (Map<String, Object> row : data) {
+            dates.add(row.get("date").toString());
+            values.add(Integer.parseInt(row.get("count").toString()));
+        }
+
+        return new TrendDTO(dates, values);
+    }
+
+    @Override
+    public List<Map<String, Object>> getHotPosts(String sort, int limit) {
+        return postMapper.selectHotPosts(sort, limit);
+    }
+
+}

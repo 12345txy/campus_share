@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.campus_share.mapper.PostMapper">
+<<<<<<< HEAD
+
+=======
+    
+>>>>>>> 02abc81ad64c5a154a4d68136070072802133db1
+    <select id="searchPosts" resultType="com.example.campus_share.entity.Post">
+        SELECT *
+        FROM t_post
+        WHERE status = 0
+<<<<<<< HEAD
+          AND (
+            title LIKE CONCAT('%', #{keyword}, '%')
+                OR content LIKE CONCAT('%', #{keyword}, '%')
+            )
+        ORDER BY create_time DESC
+    </select>
+    <!-- 查询用户点赞的帖子 -->
+    <select id="selectLikePostsByUserId" resultType="com.example.campus_share.entity.Post">
+        SELECT p.*
+        FROM t_post p
+                 JOIN t_post_like pl ON p.id = pl.post_id
+        WHERE pl.user_id = #{userId}
+    </select>
+    <!-- 查询用户shoucang的帖子 -->
+    <select id="selectFavoritePostsByUserId" resultType="com.example.campus_share.entity.Post">
+        SELECT p.*
+        FROM t_post p
+                 JOIN t_post_favorite pl ON p.id = pl.post_id
+        WHERE pl.user_id = #{userId}
+    </select>
+=======
+        AND (
+            title LIKE CONCAT('%', #{keyword}, '%')
+            OR content LIKE CONCAT('%', #{keyword}, '%')
+        )
+        ORDER BY create_time DESC
+    </select>
+    
+>>>>>>> 02abc81ad64c5a154a4d68136070072802133db1
+</mapper> 

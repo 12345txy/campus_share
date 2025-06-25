@@ -1,6 +1,9 @@
 package com.example.campus_share.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.campus_share.entity.Post;
 import com.example.campus_share.entity.PostLike;
 
 import java.util.List;
@@ -20,4 +23,8 @@ public interface PostLikeService extends IService<PostLike> {
     
     // 获取帖子的点赞用户ID列表
     List<Long> getLikeUserIds(Long postId);
+
+    boolean likeComment(Long commentId, Long userId);
+    boolean unlikeComment(Long commentId, Long userId);
+
 } 

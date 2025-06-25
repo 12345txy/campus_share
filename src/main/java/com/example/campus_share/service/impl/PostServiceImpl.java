@@ -4,26 +4,226 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+<<<<<<< HEAD
+import com.example.campus_share.entity.*;
+import com.example.campus_share.mapper.*;
+=======
+import com.example.campus_share.entity.PostDTO;
 import com.example.campus_share.entity.Post;
 import com.example.campus_share.entity.PostTag;
+import com.example.campus_share.entity.Tag;
 import com.example.campus_share.mapper.PostMapper;
 import com.example.campus_share.mapper.PostTagMapper;
+import com.example.campus_share.mapper.TagMapper;
+import com.example.campus_share.mapper.UserMapper;
+>>>>>>> 02abc81ad64c5a154a4d68136070072802133db1
 import com.example.campus_share.service.PostService;
+import com.example.campus_share.service.PostFavoriteService;
+import com.example.campus_share.service.PostLikeService;
+import com.example.campus_share.service.UserRelationService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+
 
 @Service
 public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements PostService {
 
     private final PostTagMapper postTagMapper;
+    private final UserMapper userMapper;
+<<<<<<< HEAD
+    private final PostLikeMapper postLikeMapper;
+    private final PostMapper postMapper;
+    private final PostFavoriteMapper postFavoriteMapper;
+=======
+>>>>>>> 02abc81ad64c5a154a4d68136070072802133db1
+    private final TagMapper tagMapper;
+    private final PostFavoriteService postFavoriteService;
+    private final PostLikeService postLikeService;
+    private final UserRelationService userRelationService;
 
-    public PostServiceImpl(PostTagMapper postTagMapper) {
+<<<<<<< HEAD
+
+    public PostServiceImpl(PostTagMapper postTagMapper, UserMapper userMapper, TagMapper tagMapper,
+                           PostFavoriteService postFavoriteService, PostLikeService postLikeService,
+                           UserRelationService userRelationService,PostLikeMapper postLikeMapper,PostMapper postMapper,PostFavoriteMapper postFavoriteMapper) {
         this.postTagMapper = postTagMapper;
+        this.postLikeMapper=postLikeMapper;
+        this.postMapper=postMapper;
+=======
+    public PostServiceImpl(PostTagMapper postTagMapper, UserMapper userMapper, TagMapper tagMapper,
+                           PostFavoriteService postFavoriteService, PostLikeService postLikeService,
+                           UserRelationService userRelationService) {
+        this.postTagMapper = postTagMapper;
+>>>>>>> 02abc81ad64c5a154a4d68136070072802133db1
+        this.userMapper = userMapper;
+        this.tagMapper = tagMapper;
+        this.postFavoriteService = postFavoriteService;
+        this.postLikeService = postLikeService;
+        this.userRelationService = userRelationService;
+<<<<<<< HEAD
+        this.postFavoriteMapper=postFavoriteMapper;
+=======
+>>>>>>> 02abc81ad64c5a154a4d68136070072802133db1
     }
+    private PostDTO convertToPostDTO(Post post, Long currentUserId) {
+        PostDTO postDTO = new PostDTO();
+        postDTO.setId(post.getId());
+        postDTO.setUserId(post.getUserId());
+        postDTO.setTitle(post.getTitle());
+        postDTO.setContent(post.getContent());
+        postDTO.setCategoryId(post.getCategoryId());
+        postDTO.setCoverImage(post.getCoverImage());
+        postDTO.setViewCount(post.getViewCount());
+        postDTO.setLikeCount(post.getLikeCount());
+        postDTO.setCommentCount(post.getCommentCount());
+        postDTO.setFavoriteCount(post.getFavoriteCount());
+        postDTO.setCreateTime(post.getCreateTime());
 
+        // 查询用户信息
+        Map<String, Object> userInfo = userMapper.getUserAvatarUrlAndNicknameByUserId(post.getUserId());
+        if (userInfo != null) {
+            postDTO.setUserAvatarUrl((String) userInfo.get("avatar"));
+            postDTO.setUserNickname((String) userInfo.get("nickname"));
+        }
+
+        // 查询帖子的标签
+        LambdaQueryWrapper<PostTag> postTagWrapper = new LambdaQueryWrapper<>();
+        postTagWrapper.eq(PostTag::getPostId, post.getId());
+        List<PostTag> postTags = postTagMapper.selectList(postTagWrapper);
+        List<Long> tagIds = postTags.stream().map(PostTag::getTagId).collect(Collectors.toList());
+
+        LambdaQueryWrapper<Tag> tagWrapper = new LambdaQueryWrapper<>();
+        if (!tagIds.isEmpty()) {
+            tagWrapper.in(Tag::getId, tagIds);
+        }
+        List<Tag> tags = tagMapper.selectList(tagWrapper);
+        List<String> tagNames = tags.stream().map(Tag::getName).collect(Collectors.toList());
+        postDTO.setTags(tagNames);
+
+        // 处理组图字段
+
+<<<<<<< HEAD
+        postDTO.setImages(post.getImage());
+=======
+            postDTO.setImages(post.getImage());
+>>>>>>> 02abc81ad64c5a154a4d68136070072802133db1
+
+
+        // 判断当前用户是否点赞、收藏以及是否关注了帖子的作者
+        if (currentUserId != null) {
+            postDTO.setLiked(postLikeService.isLiked(post.getId(), currentUserId));
+            postDTO.setFavorite(postFavoriteService.isFavorited(post.getId(), currentUserId));
+            postDTO.setFollowing(userRelationService.isFollowing(currentUserId, post.getUserId()));
+        } else {
+            postDTO.setLiked(false);
+            postDTO.setFavorite(false);
+            postDTO.setFollowing(false);
+        }
+
+        return postDTO;
+    }
+<<<<<<< HEAD
+    @Override
+    public IPage<PostDTO> getFavoritesPostsByUserId(Page<Post> page, Long userId) {
+        // 获取当前登录用户的ID
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long currentUserId = null;
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            currentUserId = userMapper.getUserIdByUsername(username);
+        }
+        IPage<Post> postPage=getFavoritePostsByUserId(page, userId);
+
+        IPage<PostDTO> postDTOPage = new Page<>(postPage.getCurrent(), postPage.getSize(), postPage.getTotal());
+        List<PostDTO> postDTOList = new ArrayList<>();
+        for (Post post : postPage.getRecords()) {
+            PostDTO postDTO = convertToPostDTO(post, currentUserId);
+            postDTOList.add(postDTO);
+        }
+        postDTOPage.setTotal(postPage.getTotal());
+        postDTOPage.setRecords(postDTOList);
+        return postDTOPage;
+    }
+    @Override
+    public IPage<Post> getFavoritePostsByUserId(Page<Post> page, Long userId) {
+        // 构建 PostFavorite 的查询条件
+        LambdaQueryWrapper<PostFavorite> postFavoriteWrapper = new LambdaQueryWrapper<>();
+        postFavoriteWrapper.eq(PostFavorite::getUserId, userId);
+        // 查询指定用户收藏的所有 PostFavorite 记录
+        List<PostFavorite> postFavorites = postFavoriteMapper.selectList(postFavoriteWrapper);
+
+        // 提取出收藏记录中的 postId 列表
+        List<Long> postIds = postFavorites.stream()
+                .map(PostFavorite::getPostId)
+                .collect(Collectors.toList());
+
+        if (postIds.isEmpty()) {
+            return new Page<>();
+        }
+
+        // 构建 Post 的查询条件
+        LambdaQueryWrapper<Post> postWrapper = new LambdaQueryWrapper<>();
+        postWrapper.in(Post::getId, postIds);
+
+        // 根据 postId 列表从 t_post 表中查询帖子列表
+        return postMapper.selectPage(page, postWrapper);
+    }
+    @Override
+    public IPage<PostDTO> getLikesPostsByUserId(Page<Post> page, Long userId) {
+        // 获取当前登录用户的ID
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long currentUserId = null;
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            currentUserId = userMapper.getUserIdByUsername(username);
+        }
+        IPage<Post> postPage=getLikePostsByUserId(page, userId);
+        IPage<PostDTO> postDTOPage = new Page<>(postPage.getCurrent(), postPage.getSize(), postPage.getTotal());
+        List<PostDTO> postDTOList = new ArrayList<>();
+        for (Post post : postPage.getRecords()) {
+            PostDTO postDTO = convertToPostDTO(post, currentUserId);
+            postDTOList.add(postDTO);
+        }
+        postDTOPage.setTotal(postPage.getTotal());
+        postDTOPage.setRecords(postDTOList);
+        return postDTOPage;
+    }
+    @Override
+    public IPage<Post> getLikePostsByUserId(Page<Post> page, Long userId) {
+        // 构建 PostLike 的查询条件
+        LambdaQueryWrapper<PostLike> postLikeWrapper = new LambdaQueryWrapper<>();
+        postLikeWrapper.eq(PostLike::getUserId, userId);
+        // 查询指定用户点赞的所有 PostLike 记录
+        List<PostLike> postLikes = postLikeMapper.selectList(postLikeWrapper);
+
+        // 提取出点赞记录中的 postId 列表
+        List<Long> postIds = postLikes.stream()
+                .map(PostLike::getPostId)
+                .collect(Collectors.toList());
+
+        if (postIds.isEmpty()) {
+            return new Page<>();
+        }
+
+        // 构建 Post 的查询条件
+        LambdaQueryWrapper<Post> postWrapper = new LambdaQueryWrapper<>();
+        postWrapper.in(Post::getId, postIds);
+
+        // 根据 postId 列表从 t_post 表中查询帖子列表
+        return postMapper.selectPage(page, postWrapper);
+    }
+=======
+>>>>>>> 02abc81ad64c5a154a4d68136070072802133db1
     @Override
     @Transactional
     public Post createPost(Post post, List<Long> tagIds) {
@@ -110,42 +310,206 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         if (post == null || post.getStatus() != 0) {
             throw new RuntimeException("帖子不存在或已删除");
         }
-        
+
         // 增加浏览量
         post.setViewCount(post.getViewCount() + 1);
         this.baseMapper.updateById(post);
-        
+
         return post;
     }
 
     @Override
-    public IPage<Post> getPostsByPage(Page<Post> page) {
+    public IPage<PostDTO> getPostsByPage(Page<Post> page,int sortOption,List<String> tags) {
         LambdaQueryWrapper<Post> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Post::getStatus, 0); // 正常状态
-        wrapper.orderByDesc(Post::getCreateTime);
-        return this.baseMapper.selectPage(page, wrapper);
+        // 根据 sortOption 动态设置排序条件
+        if (sortOption == 0) {
+            wrapper.orderByDesc(Post::getCreateTime);
+        } else if (sortOption == 1) {
+            wrapper.orderByDesc(Post::getPopularity);
+        }
+        IPage<Post> postPage = this.baseMapper.selectPage(page, wrapper);
+
+        IPage<PostDTO> postDTOPage = new Page<>(postPage.getCurrent(), postPage.getSize(), postPage.getTotal());
+        List<PostDTO> postDTOList = new ArrayList<>();
+
+        // 获取当前登录用户的ID
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long currentUserId = null;
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            // 假设 UserMapper 中有一个方法 getUserIdByUsername 根据用户名查询用户ID
+            currentUserId = userMapper.getUserIdByUsername(username);
+        }
+
+        for (Post post : postPage.getRecords()) {
+            PostDTO postDTO = convertToPostDTO(post, currentUserId);
+            postDTOList.add(postDTO);
+        }
+<<<<<<< HEAD
+        int before=postDTOList.size();
+=======
+>>>>>>> 02abc81ad64c5a154a4d68136070072802133db1
+// 使用 filterPostDTOsByTags 方法筛选帖子
+        if (tags != null && !tags.isEmpty()) {
+            postDTOList = PostDTO.filterPostDTOsByTags(tags, postDTOList);
+        }
+<<<<<<< HEAD
+        int after=postDTOList.size();
+
+        // 更新 postDTOPage 的总数
+        postDTOPage.setTotal(postPage.getTotal()-before+after);
+=======
+>>>>>>> 02abc81ad64c5a154a4d68136070072802133db1
+        postDTOPage.setRecords(postDTOList);
+        return postDTOPage;
     }
 
+
     @Override
-    public IPage<Post> getPostsByCategoryId(Page<Post> page, Long categoryId) {
+    public IPage<PostDTO> getPostsByCategoryId(Page<Post> page, Long categoryId,int sortOption,List<String> tags) {
         LambdaQueryWrapper<Post> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Post::getStatus, 0); // 正常状态
         wrapper.eq(Post::getCategoryId, categoryId);
-        wrapper.orderByDesc(Post::getCreateTime);
-        return this.baseMapper.selectPage(page, wrapper);
+        // 根据 sortOption 动态设置排序条件
+        if (sortOption == 0) {
+            wrapper.orderByDesc(Post::getCreateTime);
+        } else if (sortOption == 1) {
+            wrapper.orderByDesc(Post::getPopularity);
+        }
+        IPage<Post> postPage = this.baseMapper.selectPage(page, wrapper);
+
+        IPage<PostDTO> postDTOPage = new Page<>(postPage.getCurrent(), postPage.getSize(), postPage.getTotal());
+        List<PostDTO> postDTOList = new ArrayList<>();
+
+        // 获取当前登录用户的ID
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long currentUserId = null;
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            // 假设 UserMapper 中有一个方法 getUserIdByUsername 根据用户名查询用户ID
+            currentUserId = userMapper.getUserIdByUsername(username);
+        }
+
+        for (Post post : postPage.getRecords()) {
+            PostDTO postDTO = convertToPostDTO(post, currentUserId);
+            postDTOList.add(postDTO);
+        }
+<<<<<<< HEAD
+        int before=postDTOList.size();
+=======
+>>>>>>> 02abc81ad64c5a154a4d68136070072802133db1
+// 使用 filterPostDTOsByTags 方法筛选帖子
+        if (tags != null && !tags.isEmpty()) {
+            postDTOList = PostDTO.filterPostDTOsByTags(tags, postDTOList);
+        }
+<<<<<<< HEAD
+        int after=postDTOList.size();
+
+        // 更新 postDTOPage 的总数
+        postDTOPage.setTotal(postPage.getTotal()-before+after);
+=======
+>>>>>>> 02abc81ad64c5a154a4d68136070072802133db1
+        postDTOPage.setRecords(postDTOList);
+        return postDTOPage;
     }
 
+
     @Override
-    public IPage<Post> getPostsByUserId(Page<Post> page, Long userId) {
+    public IPage<PostDTO> getPostsByUserId(Page<Post> page, Long userId,int sortOption,List<String> tags) {
         LambdaQueryWrapper<Post> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Post::getStatus, 0); // 正常状态
         wrapper.eq(Post::getUserId, userId);
-        wrapper.orderByDesc(Post::getCreateTime);
-        return this.baseMapper.selectPage(page, wrapper);
+        // 根据 sortOption 动态设置排序条件
+        if (sortOption == 0) {
+            wrapper.orderByDesc(Post::getCreateTime);
+        } else if (sortOption == 1) {
+            wrapper.orderByDesc(Post::getPopularity);
+        }
+        IPage<Post> postPage = this.baseMapper.selectPage(page, wrapper);
+
+        IPage<PostDTO> postDTOPage = new Page<>(postPage.getCurrent(), postPage.getSize(), postPage.getTotal());
+        List<PostDTO> postDTOList = new ArrayList<>();
+
+        // 获取当前登录用户的ID
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long currentUserId = null;
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            currentUserId = userMapper.getUserIdByUsername(username);
+        }
+
+        for (Post post : postPage.getRecords()) {
+            PostDTO postDTO = convertToPostDTO(post, currentUserId);
+            postDTOList.add(postDTO);
+        }
+<<<<<<< HEAD
+        int before=postDTOList.size();
+=======
+>>>>>>> 02abc81ad64c5a154a4d68136070072802133db1
+// 使用 filterPostDTOsByTags 方法筛选帖子
+        if (tags != null && !tags.isEmpty()) {
+            postDTOList = PostDTO.filterPostDTOsByTags(tags, postDTOList);
+        }
+<<<<<<< HEAD
+        int after=postDTOList.size();
+
+        // 更新 postDTOPage 的总数
+        postDTOPage.setTotal(postPage.getTotal()-before+after);
+=======
+>>>>>>> 02abc81ad64c5a154a4d68136070072802133db1
+        postDTOPage.setRecords(postDTOList);
+        return postDTOPage;
     }
 
     @Override
-    public IPage<Post> searchPosts(Page<Post> page, String keyword) {
-        return this.baseMapper.searchPosts(page, keyword);
+    public IPage<PostDTO> searchPosts(Page<Post> page, String keyword, int sortOption,List<String> tags) {
+        LambdaQueryWrapper<Post> wrapper = new LambdaQueryWrapper<>();
+        // 构建搜索条件，假设搜索 title 和 content 字段
+        wrapper.like(Post::getTitle, keyword).or().like(Post::getContent, keyword);
+        wrapper.eq(Post::getStatus, 0); // 正常状态
+
+        // 根据 sortOption 动态设置排序条件
+        if (sortOption == 0) {
+            wrapper.orderByDesc(Post::getCreateTime);
+        } else if (sortOption == 1) {
+            wrapper.orderByDesc(Post::getPopularity);
+        }
+
+        IPage<Post> postPage = this.baseMapper.selectPage(page, wrapper);
+
+        IPage<PostDTO> postDTOPage = new Page<>(postPage.getCurrent(), postPage.getSize(), postPage.getTotal());
+        List<PostDTO> postDTOList = new ArrayList<>();
+
+        // 获取当前登录用户的 ID
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long currentUserId = null;
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            currentUserId = userMapper.getUserIdByUsername(username);
+        }
+
+        for (Post post : postPage.getRecords()) {
+            PostDTO postDTO = convertToPostDTO(post, currentUserId);
+            postDTOList.add(postDTO);
+        }
+<<<<<<< HEAD
+        int before=postDTOList.size();
+=======
+>>>>>>> 02abc81ad64c5a154a4d68136070072802133db1
+// 使用 filterPostDTOsByTags 方法筛选帖子
+        if (tags != null && !tags.isEmpty()) {
+            postDTOList = PostDTO.filterPostDTOsByTags(tags, postDTOList);
+        }
+<<<<<<< HEAD
+        int after=postDTOList.size();
+
+        // 更新 postDTOPage 的总数
+        postDTOPage.setTotal(postPage.getTotal()-before+after);
+=======
+>>>>>>> 02abc81ad64c5a154a4d68136070072802133db1
+        postDTOPage.setRecords(postDTOList);
+        return postDTOPage;
     }
-} 
+
+}

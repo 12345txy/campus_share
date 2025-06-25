@@ -1,13 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.campus_share.mapper.PostFavoriteMapper">
-    <select id="selectFavoritePostsByUserId" resultType="com.example.campus_share.entity.Post">
-        SELECT p.*, u.username, u.nickname, u.avatar
-        FROM t_post_favorite f
-        JOIN t_post p ON f.post_id = p.id
-        JOIN t_user u ON p.user_id = u.id
-        WHERE f.user_id = #{userId}
-        AND p.status = 0 -- 只查询正常状态的帖子
-        ORDER BY f.create_time DESC
-    </select>
 </mapper> 

@@ -34,7 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-
+        System.out.println("用户角色：" + authorities);
         // 返回UserDetails实现
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),

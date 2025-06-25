@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.campus_share.entity.User;
 import com.example.campus_share.entity.UserRelation;
 
+import java.util.List;
+
 public interface UserRelationService extends IService<UserRelation> {
     // 关注用户
     boolean followUser(Long userId, Long followUserId);
@@ -17,11 +19,10 @@ public interface UserRelationService extends IService<UserRelation> {
     boolean isFollowing(Long userId, Long followUserId);
     
     // 获取关注列表
-    IPage<User> getFollowingList(Page<User> page, Long userId);
-    
-    // 获取粉丝列表
-    IPage<User> getFollowerList(Page<User> page, Long userId);
-    
+    List<User> getFollowingList(Long userId);
+
+    List<User>  getFollowerList(Long userId);
+
     // 获取关注数
     int getFollowingCount(Long userId);
     
