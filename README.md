@@ -1,7 +1,7 @@
 # Campus Share - Web课设校园分享平台后端
 
 这是一个基于 Spring Boot 的校园分享平台的后端项目。
-欢迎访问[前端仓库](https://github.com/12345txy/campus_share)
+欢迎访问[前端仓库](https://github.com/12345txy/Campus_share_Frontend-main)
 
 ## ✨ 项目功能
 
