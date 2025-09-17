@@ -1,4 +1,4 @@
-# Campus Share - 校园分享平台后端
+# Campus Share - Web课设校园分享平台后端
 
 这是一个基于 Spring Boot 的校园分享平台的后端项目。
 欢迎访问[前端仓库](https://github.com/12345txy/campus_share)
@@ -33,44 +33,42 @@
 
 ### 本地运行
 
-1.  克隆项目到本地
+1. 克隆项目到本地
 
-    ```bash
-    git clone <your-repository-url>
-    cd campus_share-main
-    ```
+   ```bash
+   git clone <your-repository-url>
+   cd campus_share-main
+   ```
+2. 创建数据库
 
-2.  创建数据库
+   - 在你的 MySQL 中创建一个名为 `campus_share` 的数据库。
+   - 项目启动时会自动执行 `schema.sql` 和 `data.sql` 来初始化表结构和数据。
+3. 修改配置文件
 
-    - 在你的 MySQL 中创建一个名为 `campus_share` 的数据库。
-    - 项目启动时会自动执行 `schema.sql` 和 `data.sql` 来初始化表结构和数据。
+   - 打开 `src/main/resources/application.properties` 文件。
+   - 修改以下配置项以匹配你本地的环境：
 
-3.  修改配置文件
+     ```properties
+     # 数据库连接
+     spring.datasource.url=jdbc:mysql://localhost:3306/campus_share
+     spring.datasource.username=<your-mysql-username>
+     spring.datasource.password=<your-mysql-password>
 
-    - 打开 `src/main/resources/application.properties` 文件。
-    - 修改以下配置项以匹配你本地的环境：
+     # Redis 配置
+     spring.data.redis.host=localhost
+     spring.data.redis.port=6379
 
-      ```properties
-      # 数据库连接
-      spring.datasource.url=jdbc:mysql://localhost:3306/campus_share
-      spring.datasource.username=<your-mysql-username>
-      spring.datasource.password=<your-mysql-password>
+     # 阿里云 OSS 配置 (如果需要文件上传功能)
+     aliyun.oss.endpoint=<your-oss-endpoint>
+     aliyun.oss.accessKeyId=<your-access-key-id>
+     aliyun.oss.accessKeySecret=<your-access-key-secret>
+     aliyun.oss.bucketName=<your-bucket-name>
+     ```
+4. 启动项目
 
-      # Redis 配置
-      spring.data.redis.host=localhost
-      spring.data.redis.port=6379
-
-      # 阿里云 OSS 配置 (如果需要文件上传功能)
-      aliyun.oss.endpoint=<your-oss-endpoint>
-      aliyun.oss.accessKeyId=<your-access-key-id>
-      aliyun.oss.accessKeySecret=<your-access-key-secret>
-      aliyun.oss.bucketName=<your-bucket-name>
-      ```
-
-4.  启动项目
-    ```bash
-    mvn spring-boot:run
-    ```
+   ```bash
+   mvn spring-boot:run
+   ```
 
 ## 📝 API 文档
 
